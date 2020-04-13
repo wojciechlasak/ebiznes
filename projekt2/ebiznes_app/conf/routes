@@ -10,6 +10,30 @@ GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 
+# Products
+
+GET     /products                   controllers.HomeController.getProducts
+GET     /product/:id                controllers.HomeController.getProduct(id: Long)
+DELETE  /product/:id                controllers.HomeController.deleteProduct(id: Long)
+POST    /product                    controllers.HomeController.addProduct
+PUT     /product                    controllers.HomeController.updateProduct
+
+# Basket
+
+GET     /basket/:id                 controllers.HomeController.getBasket(id: Long)
+POST    /basket                     controllers.HomeController.addToBasket
+DELETE  /basket/:id                 controllers.HomeController.deleteFromBasket(id: Long)
+
+# Opinion
+
+GET     /opinion/:id                controllers.HomeController.getOpinion(id: Long)
+POST    /opinion                    controllers.HomeController.addOpinion
+DELETE  /opinion/:id                controllers.HomeController.deleteOpinion(id: Long)
+
+
+
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
