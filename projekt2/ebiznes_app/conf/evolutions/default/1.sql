@@ -14,13 +14,20 @@ CREATE TABLE "opinion" (
 );
 
 CREATE TABLE "basket" (
- "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
- "product" INTEGER NOT NULL,
- FOREIGN KEY(product) references product(id)
+ "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+);
+
+CREATE TABLE "basket_products" (
+  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  "product" INTEGER NOT NULL,
+  "basket" INTEGER NOT NULL,
+  FOREIGN KEY(product) references product(id),
+  FOREIGN KEY(basket) references basket(id)
 );
 
 # --- !Downs
 
+DROP TABLE "basket_products"
 DROP TABLE "basket"
 DROP TABLE "opinion"
 DROP TABLE "product"

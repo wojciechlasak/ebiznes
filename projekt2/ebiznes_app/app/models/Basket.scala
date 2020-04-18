@@ -2,8 +2,8 @@ package models
 
 import play.api.libs.json.Json
 
-case class Basket(id: Long, product: Long)
+case class Basket(id: Long)
 
 object Basket {
-  implicit val basketFormat = Json.format[Product]
+  implicit val basketFormat = Json.format[Basket]
 }
