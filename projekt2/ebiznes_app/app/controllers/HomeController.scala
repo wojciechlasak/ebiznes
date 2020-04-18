@@ -1,14 +1,18 @@
 package controllers
 
+import models.{Opinion, OpinionRepository, Product, ProductRepository, Basket, BasketRepository}
+
 import javax.inject._
 import play.api.mvc._
+
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(productRepo: ProductRepository, opinionRepo: OpinionRepository, basketRepo: BasketRepository, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
   /**
    * Create an Action to render an HTML page with a welcome message.
@@ -20,12 +24,17 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index("Your new application is ready."))
   }
 
-  def getProducts: Action[AnyContent] = Action {
-    Ok(views.html.index("Get products"))
+  def getProducts: Action[AnyContent] = Action.async { implicit request =>
+    val products = productRepo.list()
+    products.map( products => Ok(views.html.products(products)))
   }
 
-  def getProduct(id: Long): Action[AnyContent] = Action {
-    Ok(views.html.index("Get product"))
+  def getProduct(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val product = productRepo.getByIdOption(id)
+    product.map(product => product match {
+      case Some(p) => Ok(views.html.product(p))
+      case None => Redirect(routes.HomeController.getProducts())
+    })
   }
 
   def deleteProduct(id: Long): Action[AnyContent] = Action {

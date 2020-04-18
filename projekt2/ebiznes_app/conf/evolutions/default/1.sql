@@ -3,7 +3,7 @@
 CREATE TABLE "product" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
  "name" VARCHAR NOT NULL,
- "description" VARCHAR NOT NULL,
+ "description" VARCHAR NOT NULL
 );
 
 CREATE TABLE "opinion" (
@@ -16,8 +16,7 @@ CREATE TABLE "opinion" (
 CREATE TABLE "basket" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
  "product" INTEGER NOT NULL,
- FOREIGN KEY(product) references product(id),
-
+ FOREIGN KEY(product) references product(id)
 );
 
 # --- !Downs
