@@ -17,16 +17,15 @@ class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clie
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def client = column[Long]("client")
-    def client_fk = foreignKey("cli_fk",client, cli)(_.id)
+//    def client_fk = foreignKey("cli_fk",client, cli)(_.id)
     def * = (id, client) <> ((Basket.apply _).tupled, Basket.unapply)
 
   }
   import clientRepository.ClientTable
 
-  private val cli = TableQuery[ClientTable]
-
   private val basket = TableQuery[BasketTable]
 
+  private val cli = TableQuery[ClientTable]
 
   def create(client: Long): Future[Basket] = db.run {
     (basket.map(b => (b.client))

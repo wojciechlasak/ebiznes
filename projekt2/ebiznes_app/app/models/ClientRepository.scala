@@ -33,6 +33,14 @@ class ClientRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
     client.result
   }
 
+  def getById(id: Long): Future[Client] = db.run {
+    client.filter(_.id === id).result.head
+  }
+
+  def getByIdOption(id: Long): Future[Option[Client]] = db.run {
+    client.filter(_.id === id).result.headOption
+  }
+  
   def delete(id: Long): Future[Unit] = db.run(client.filter(_.id === id).delete).map(_ => ())
 
   def update(id: Long, new_client: Client): Future[Unit] = {

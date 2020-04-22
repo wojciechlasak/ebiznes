@@ -20,8 +20,8 @@ class FavoriteProductsRepository @Inject() (dbConfigProvider: DatabaseConfigProv
     def product = column[Long]("product")
     def favorite = column[Long]("favorite")
     def product_fk = foreignKey("prod_fk",product, prod)(_.id)
-    def favorite = foreignKey("fav_fk",favorite, fav)(_.id)
-    def * = (id, product, favorite) <> ((BasketProducts.apply _).tupled, BasketProducts.unapply)
+    def favorite_fk = foreignKey("fav_fk",favorite, fav)(_.id)
+    def * = (id, product, favorite) <> ((FavoriteProducts.apply _).tupled, FavoriteProducts.unapply)
   }
 
   import productRepository.ProductTable

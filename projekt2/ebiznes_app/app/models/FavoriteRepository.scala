@@ -6,13 +6,13 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clientRepository: ClientRepository)(implicit ec: ExecutionContext) {
+case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clientRepository: ClientRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
 
-  class FavoriteTable(tag: Tag) extends Table[Favorite](tag, "favorite") {
+  case class FavoriteTable(tag: Tag) extends Table[Favorite](tag, "favorite") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def client = column[Long]("client")

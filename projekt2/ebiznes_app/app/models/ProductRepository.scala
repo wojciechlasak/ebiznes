@@ -6,14 +6,14 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, categoryRepository: CategoryRepository)(implicit ec: ExecutionContext) {
+case class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, categoryRepository: CategoryRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
 
 
-  class ProductTable(tag: Tag) extends Table[Product](tag, "product") {
+  case class ProductTable(tag: Tag) extends Table[Product](tag, "product") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
