@@ -6,7 +6,7 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clientRepository: ClientRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -16,22 +16,31 @@ class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
   class BasketTable(tag: Tag) extends Table[Basket](tag, "basket") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-
-    def * = (id) <> (Basket.apply, Basket.unapply)
+    def client = column[Long]("client")
+    def client_fk = foreignKey("cli_fk",client, cli)(_.id)
+    def * = (id, client) <> ((Basket.apply _).tupled, Basket.unapply)
 
   }
+  import clientRepository.ClientTable
 
-  /**
-   * The starting point for all queries on the people table.
-   */
+  private val cli = TableQuery[ClientTable]
 
   private val basket = TableQuery[BasketTable]
 
-  /**
-   * List all the people in the database.
-   */
+
+  def create(client: Long): Future[Basket] = db.run {
+    (basket.map(b => (b.client))
+      returning basket.map(_.id)
+      into {case ((client),id) => Basket(id,client)}
+      ) += (client)
+  }
+
   def list(): Future[Seq[Basket]] = db.run {
     basket.result
+  }
+
+  def getByClient(client_id: Long): Future[Seq[Basket]] = db.run {
+    basket.filter(_.client === client_id).result
   }
 
   def getById(id: Long): Future[Basket] = db.run {
@@ -43,5 +52,10 @@ class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
   }
 
   def delete(id: Long): Future[Unit] = db.run(basket.filter(_.id === id).delete).map(_ => ())
+
+  def update(id: Long, new_basket: Basket): Future[Unit] = {
+    val basketToUpdate: Basket = new_basket.copy(id)
+    db.run(basket.filter(_.id === id).update(basketToUpdate)).map(_ => ())
+  }
 
 }
