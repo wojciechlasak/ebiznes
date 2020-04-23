@@ -1,0 +1,19 @@
+@(basket: Form[CreateBasketForm],client: Seq[Client])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(routes.BasketController.addBasketHandle()) {
+    @helper.CSRF.formField
+
+    <select name="client" id="client">
+    @for(cli <- client){
+        <option value="@cli.id">@cli.name</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add Basket"/>
+    </div>
+}

@@ -1,0 +1,37 @@
+@(basketproduct: Form[UpdateBasketProductForm],product: Seq[Product], basket: Seq[Basket])(implicit request: MessagesRequestHeader, flash: Flash)
+
+    @import helper._
+
+    @flash.get("success").getOrElse("")
+
+    @form(routes.BasketProductController.updateBasketProductHandle()) {
+        @helper.CSRF.formField
+        <input name="id" id="id" value="@basketproduct("id").value" type="hidden" />
+        <input name="quantity" id="quantity" value="@basketproduct("quantity").value" type="number" />
+
+        <select name="product" id="product">
+        @for(prod <- product){
+            @if(prod.id.toString==basketproduct("product").value.getOrElse(0)) {
+                <option value="@prod.id" selected>@prod.name</option>
+            }else{
+                <option value="@prod.id">@prod.name</option>
+            }
+
+        }
+        </select>
+
+        <select name="basket" id="basket">
+        @for(bask <- basket){
+            @if(bask.id.toString==basketproduct("basket").value.getOrElse(0)) {
+                <option value="@bask.id" selected>@bask.id</option>
+            }else{
+                <option value="@bask.id">@bask.id</option>
+            }
+
+        }
+        </select>
+
+        <div class="buttons">
+            <input type="submit" value="Update BasketProduct"/>
+        </div>
+    }

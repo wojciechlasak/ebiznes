@@ -39,7 +39,7 @@ class ClientController @Inject()(clientRepo: ClientRepository, cc: MessagesContr
 
   def getClient(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val client = clientRepo.getByIdOption(id)
-    client.map(product => product match {
+    client.map(client => client match {
       case Some(p) => Ok(views.html.client(p))
       case None => Redirect(routes.ClientController.getClients())
     })
@@ -77,7 +77,7 @@ class ClientController @Inject()(clientRepo: ClientRepository, cc: MessagesContr
 
   def addClient: Action[AnyContent] = Action.async { implicit request =>
     val clients = clientRepo.list()
-    clients.map (cli => Ok(views.html.clientadd(clientForm)))
+    clients.map (_ => Ok(views.html.clientadd(clientForm)))
   }
 
   def addClientHandle = Action.async { implicit request =>

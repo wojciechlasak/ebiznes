@@ -1,0 +1,6 @@
+@(favorites: Seq[Favorite])
+
+@for(favorite <- favorites) {
+    <b>@favorite.id</b>
+    <br/>
+}

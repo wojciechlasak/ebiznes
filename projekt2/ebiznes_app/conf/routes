@@ -23,25 +23,36 @@ GET     /deleteproduct/:id          controllers.ProductController.deleteProduct(
 
 # Basket
 
-#GET     /addbasket                controllers.HomeController.addBasket
-#POST    /addbaskethandle           controllers.HomeController.addBasketHandle
-#GET     /updatebasket/:id          controllers.HomeController.updateBasket(id: Long)
-#POST    /updatebaskethandle        controllers.HomeController.updateBasketHandle
-#
-#GET     /baskets                   controllers.HomeController.getBaskets
-#GET     /basket/:id                controllers.HomeController.getBasket(id: Long)
-#GET     /deletebasket/:id          controllers.HomeController.deleteBasket(id: Long)
+GET     /addbasket                 controllers.BasketController.addBasket
+POST    /addbaskethandle           controllers.BasketController.addBasketHandle
+GET     /updatebasket/:id          controllers.BasketController.updateBasket(id: Long)
+POST    /updatebaskethandle        controllers.BasketController.updateBasketHandle
+
+GET     /baskets                   controllers.BasketController.getBaskets
+GET     /basket/:id                controllers.BasketController.getBasket(id: Long)
+GET     /deletebasket/:id          controllers.BasketController.deleteBasket(id: Long)
+
+# BasketProduct
+
+GET     /addbasketproduct                 controllers.BasketProductController.addBasketProduct
+POST    /addbasketproducthandle           controllers.BasketProductController.addBasketProductHandle
+GET     /updatebasketproduct/:id          controllers.BasketProductController.updateBasketProduct(id: Long)
+POST    /updatebasketproducthandle        controllers.BasketProductController.updateBasketProductHandle
+
+GET     /basketproducts                   controllers.BasketProductController.getBasketProducts
+GET     /basketproduct/:id                controllers.BasketProductController.getBasketProduct(id: Long)
+GET     /deletebasketproduct/:id          controllers.BasketProductController.deleteBasketProduct(id: Long)
 
 # Opinion
 
-#GET     /addopinion                 controllers.HomeController.addOpinion
-#POST    /addopinionhandle           controllers.HomeController.addOpinionHandle
-#GET     /updateopinion/:id          controllers.HomeController.updateOpinion(id: Long)
-#POST    /updateopinionhandle        controllers.HomeController.updateOpinionHandle
-#
-#GET     /opinions                   controllers.HomeController.getOpinions
-#GET     /opinion/:id                controllers.HomeController.getOpinion(id: Long)
-#GET     /deleteopinion/:id          controllers.HomeController.deleteOpinion(id: Long)
+GET     /addopinion                 controllers.OpinionController.addOpinion
+POST    /addopinionhandle           controllers.OpinionController.addOpinionHandle
+GET     /updateopinion/:id          controllers.OpinionController.updateOpinion(id: Long)
+POST    /updateopinionhandle        controllers.OpinionController.updateOpinionHandle
+
+GET     /opinions                   controllers.OpinionController.getOpinions
+GET     /opinion/:id                controllers.OpinionController.getOpinion(id: Long)
+GET     /deleteopinion/:id          controllers.OpinionController.deleteOpinion(id: Long)
 
 # Client
 
@@ -66,35 +77,47 @@ GET     /deletecategory/:id          controllers.CategoryController.deleteCatego
 
 # Favorite
 
-#GET     /addfavorite                controllers.HomeController.addFavorite
-#POST    /addfavoritehandle          controllers.HomeController.addFavoriteHandle
-#GET     /updatefavorite/:id         controllers.HomeController.updateFavorite(id: Long)
-#POST    /updatefavoritehandle       controllers.HomeController.updateFavoriteHandle
-#
-#GET     /favorites                  controllers.HomeController.getFavorites
-#GET     /favorite/:id               controllers.HomeController.getFavorite(id: Long)
-#GET     /deletefavorite/:id         controllers.HomeController.deleteFavorite(id: Long)
+GET     /addfavorite                controllers.FavoriteController.addFavorite
+POST    /addfavoritehandle          controllers.FavoriteController.addFavoriteHandle
+GET     /updatefavorite/:id         controllers.FavoriteController.updateFavorite(id: Long)
+POST    /updatefavoritehandle       controllers.FavoriteController.updateFavoriteHandle
+
+GET     /favorites                  controllers.FavoriteController.getFavorites
+GET     /favorite/:id               controllers.FavoriteController.getFavorite(id: Long)
+GET     /deletefavorite/:id         controllers.FavoriteController.deleteFavorite(id: Long)
+
+# FavoriteProduct
+
+GET     /addfavoriteproduct                controllers.FavoriteProductController.addFavoriteProduct
+POST    /addfavoriteproducthandle          controllers.FavoriteProductController.addFavoriteProductHandle
+GET     /updatefavoriteproduct/:id         controllers.FavoriteProductController.updateFavoriteProduct(id: Long)
+POST    /updatefavoriteproducthandle       controllers.FavoriteProductController.updateFavoriteProductHandle
+
+GET     /favoriteproducts                  controllers.FavoriteProductController.getFavoriteProducts
+GET     /favoriteproduct/:id               controllers.FavoriteProductController.getFavoriteProduct(id: Long)
+GET     /deletefavoriteproduct/:id         controllers.FavoriteProductController.deleteFavoriteProduct(id: Long)
 
 # Payment
 
-#GET     /addpayment                 controllers.HomeController.addPayment
-#POST    /addpaymenthandle           controllers.HomeController.addPaymentHandle
-#GET     /updatepayment/:id          controllers.HomeController.updatePayment(id: Long)
-#POST    /updatepaymenthandle        controllers.HomeController.updatePaymentHandle
-#
-#GET     /payments                   controllers.HomeController.getPayments
-#GET     /deletepayment/:id          controllers.HomeController.deletePayment(id: Long)
+GET     /addpayment                 controllers.PaymentController.addPayment
+POST    /addpaymenthandle           controllers.PaymentController.addPaymentHandle
+GET     /updatepayment/:id          controllers.PaymentController.updatePayment(id: Long)
+POST    /updatepaymenthandle        controllers.PaymentController.updatePaymentHandle
+
+GET     /payments                   controllers.PaymentController.getPayments
+GET     /payment/:id                 controllers.PaymentController.getPayment(id: Long)
+GET     /deletepayment/:id          controllers.PaymentController.deletePayment(id: Long)
 
 # Order
 
-#GET     /addorder                   controllers.HomeController.addOrder
-#POST    /addorderhandle             controllers.HomeController.addOrderHandle
-#GET     /updateorder/:id            controllers.HomeController.updateOrder(id: Long)
-#POST    /updateorderhandle          controllers.HomeController.updateOrderHandle
-#
-#GET     /orders                     controllers.HomeController.getOrders
-#GET     /order/:id                  controllers.HomeController.getOrder(id: Long)
-#GET     /deleteorder/:id            controllers.HomeController.deleteOrder(id: Long)
+GET     /addorder                   controllers.OrderController.addOrder
+POST    /addorderhandle             controllers.OrderController.addOrderHandle
+GET     /updateorder/:id            controllers.OrderController.updateOrder(id: Long)
+POST    /updateorderhandle          controllers.OrderController.updateOrderHandle
+
+GET     /orders                     controllers.OrderController.getOrders
+GET     /order/:id                  controllers.OrderController.getOrder(id: Long)
+GET     /deleteorder/:id            controllers.OrderController.deleteOrder(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

@@ -1,0 +1,36 @@
+@(order: Form[UpdateOrderForm],payment: Seq[Payment], basket: Seq[Basket])(implicit request: MessagesRequestHeader, flash: Flash)
+
+    @import helper._
+
+    @flash.get("success").getOrElse("")
+
+    @form(routes.OrderController.updateOrderHandle()) {
+        @helper.CSRF.formField
+        <input name="id" id="id" value="@order("id").value" type="hidden" />
+
+        <select name="payment" id="payment">
+        @for(pay <- payment){
+            @if(pay.id.toString==order("payment").value.getOrElse(0)) {
+                <option value="@pay.id" selected>@pay.name</option>
+            }else{
+                <option value="@pay.id">@pay.name</option>
+            }
+
+        }
+        </select>
+
+        <select name="basket" id="basket">
+        @for(bask <- basket){
+            @if(bask.id.toString==order("basket").value.getOrElse(0)) {
+                <option value="@bask.id" selected>@bask.id</option>
+            }else{
+                <option value="@bask.id">@bask.id</option>
+            }
+
+        }
+        </select>
+
+        <div class="buttons">
+            <input type="submit" value="Update Order"/>
+        </div>
+    }

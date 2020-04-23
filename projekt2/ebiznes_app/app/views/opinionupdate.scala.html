@@ -1,0 +1,26 @@
+@(opinion: Form[UpdateOpinionForm],product: Seq[Product])(implicit request: MessagesRequestHeader, flash: Flash)
+
+    @import helper._
+
+    @flash.get("success").getOrElse("")
+
+    @form(routes.OpinionController.updateOpinionHandle()) {
+        @helper.CSRF.formField
+        <input name="id" id="id" value="@opinion("id").value" type="hidden" />
+        @inputText(opinion("description"))
+
+        <select name="product" id="product">
+        @for(prod <- product){
+            @if(prod.id.toString==opinion("product").value.getOrElse(0)) {
+                <option value="@prod.id" selected>@prod.id</option>
+            }else{
+                <option value="@prod.id">@prod.id</option>
+            }
+
+        }
+        </select>
+
+        <div class="buttons">
+            <input type="submit" value="Update Opinion"/>
+        </div>
+    }

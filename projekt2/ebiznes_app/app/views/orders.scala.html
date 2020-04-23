@@ -1,0 +1,7 @@
+@(orders: Seq[Order])
+
+@for(order <- orders) {
+    <b>@order.id</b>
+    @order.payment
+    @order.basket
+}

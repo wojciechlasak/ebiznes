@@ -28,6 +28,14 @@ class PaymentRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(imp
       ) += (name)
   }
 
+  def getById(id: Long): Future[Payment] = db.run {
+    payment.filter(_.id === id).result.head
+  }
+
+  def getByIdOption(id: Long): Future[Option[Payment]] = db.run {
+    payment.filter(_.id === id).result.headOption
+  }
+
   def list(): Future[Seq[Payment]] = db.run {
     payment.result
   }

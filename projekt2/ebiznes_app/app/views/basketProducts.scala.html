@@ -1,4 +1,8 @@
-@(basketProducts: BasketProducts)
+@(basketproducts: Seq[BasketProduct])
 
-<li></li>
-<b>@basketProducts.id</b>
+@for(basketproduct <- basketproducts) {
+    <b>@basketproduct.id</b>
+    @basketproduct.quantity
+    @basketproduct.product
+    @basketproduct.basket
+}

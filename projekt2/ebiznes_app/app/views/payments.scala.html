@@ -1,0 +1,6 @@
+@(payments: Seq[Payment])
+
+@for(payment <- payments) {
+    <b>@payment.name</b>
+    <br />
+}
