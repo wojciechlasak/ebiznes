@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json.toJson
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -30,6 +31,16 @@ class ClientController @Inject()(clientRepo: ClientRepository, cc: MessagesContr
       "name" -> nonEmptyText,
       "address" -> nonEmptyText,
     )(UpdateClientForm.apply)(UpdateClientForm.unapply)
+  }
+
+  def getClientsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val clients = clientRepo.list()
+    clients.map( clients => Ok(toJson(clients)))
+  }
+
+  def getClientJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val client = clientRepo.getByIdOption(id)
+    client.map(client => Ok(toJson(client)))
   }
 
   def getClients: Action[AnyContent] = Action.async { implicit request =>

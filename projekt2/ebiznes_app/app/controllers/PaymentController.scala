@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json.toJson
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -28,6 +29,16 @@ class PaymentController @Inject()(paymentRepo: PaymentRepository, cc: MessagesCo
       "id" -> longNumber,
       "name" -> nonEmptyText,
     )(UpdatePaymentForm.apply)(UpdatePaymentForm.unapply)
+  }
+
+  def getPaymentsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val payments = paymentRepo.list()
+    payments.map( payments => Ok(toJson(payments)))
+  }
+
+  def getPaymentJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val payment = paymentRepo.getByIdOption(id)
+    payment.map(payment => Ok(toJson(payment)))
   }
 
   def getPayments: Action[AnyContent] = Action.async { implicit request =>

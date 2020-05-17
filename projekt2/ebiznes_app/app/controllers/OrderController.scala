@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json.toJson
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -30,6 +31,16 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
       "basket" -> longNumber,
       "payment" -> longNumber,
     )(UpdateOrderForm.apply)(UpdateOrderForm.unapply)
+  }
+
+  def getOrdersJSON: Action[AnyContent] = Action.async { implicit request =>
+    val orders = orderRepo.list()
+    orders.map( orders => Ok(toJson(orders)))
+  }
+
+  def getOrderJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val order = orderRepo.getByIdOption(id)
+    order.map(order => Ok(toJson(order)))
   }
 
   def getOrders: Action[AnyContent] = Action.async { implicit request =>

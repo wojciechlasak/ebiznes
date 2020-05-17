@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json.toJson
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -32,6 +33,16 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
       "basket" -> longNumber,
       "product" -> longNumber,
     )(UpdateBasketProductForm.apply)(UpdateBasketProductForm.unapply)
+  }
+
+  def getBasketProductsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val basketproducts = basketproductRepo.list()
+    basketproducts.map( basketproducts => Ok(toJson(basketproducts)))
+  }
+
+  def getBasketProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val basketproduct = basketproductRepo.getByIdOption(id)
+    basketproduct.map(basketproduct => Ok(toJson(basketproduct)))
   }
 
   def getBasketProducts: Action[AnyContent] = Action.async { implicit request =>

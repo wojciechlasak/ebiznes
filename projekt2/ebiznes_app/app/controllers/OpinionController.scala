@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json.toJson
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -30,6 +31,16 @@ class OpinionController @Inject()(opinionRepo: OpinionRepository, productRepo: P
       "description" -> nonEmptyText,
       "product" -> longNumber,
     )(UpdateOpinionForm.apply)(UpdateOpinionForm.unapply)
+  }
+
+  def getOpinionsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val opinions = opinionRepo.list()
+    opinions.map( opinions => Ok(toJson(opinions)))
+  }
+
+  def getOpinionJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val opinion = opinionRepo.getByIdOption(id)
+    opinion.map(opinion => Ok(toJson(opinion)))
   }
 
   def getOpinions: Action[AnyContent] = Action.async { implicit request =>

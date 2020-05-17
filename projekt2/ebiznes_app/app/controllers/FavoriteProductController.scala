@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json.toJson
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -30,6 +31,16 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
       "favorite" -> longNumber,
       "product" -> longNumber,
     )(UpdateFavoriteProductForm.apply)(UpdateFavoriteProductForm.unapply)
+  }
+
+  def getFavoriteProductsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val favoriteproducts = favoriteproductRepo.list()
+    favoriteproducts.map( favoriteproducts => Ok(toJson(favoriteproducts)))
+  }
+
+  def getFavoriteProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val favoriteproduct = favoriteproductRepo.getByIdOption(id)
+    favoriteproduct.map(favoriteproduct => Ok(toJson(favoriteproduct)))
   }
 
   def getFavoriteProducts: Action[AnyContent] = Action.async { implicit request =>

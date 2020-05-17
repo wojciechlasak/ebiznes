@@ -1,10 +1,10 @@
 package controllers
 
 import models.{Basket, BasketRepository, Client, ClientRepository}
-
 import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
+import play.api.libs.json.Json.toJson
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -28,6 +28,16 @@ class BasketController @Inject()(basketRepo: BasketRepository, clientRepo: Clien
       "id" -> longNumber,
       "client" -> longNumber,
     )(UpdateBasketForm.apply)(UpdateBasketForm.unapply)
+  }
+
+  def getBasketsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val baskets = basketRepo.list()
+    baskets.map( baskets => Ok(toJson(baskets)))
+  }
+
+  def getBasketJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val basket = basketRepo.getByIdOption(id)
+    basket.map(basket => Ok(toJson(basket)))
   }
 
   def getBaskets: Action[AnyContent] = Action.async { implicit request =>

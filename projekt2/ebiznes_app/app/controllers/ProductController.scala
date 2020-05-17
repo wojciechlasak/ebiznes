@@ -6,6 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
+import play.api.libs.json.Json._
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -39,6 +40,16 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
   def getProducts: Action[AnyContent] = Action.async { implicit request =>
     val products = productRepo.list()
     products.map( products => Ok(views.html.products(products)))
+  }
+
+  def getProductsJSON: Action[AnyContent] = Action.async { implicit request =>
+    val products = productRepo.list()
+    products.map( products => Ok(toJson(products)))
+  }
+
+  def getProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val product = productRepo.getByIdOption(id)
+    product.map(product => Ok(toJson(product)))
   }
 
   def getProduct(id: Long): Action[AnyContent] = Action.async { implicit request =>

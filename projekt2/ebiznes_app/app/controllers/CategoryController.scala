@@ -6,7 +6,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
 import play.api.mvc._
-
+import play.api.libs.json.Json.toJson
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -28,6 +28,16 @@ class CategoryController @Inject()(categoryRepo: CategoryRepository, cc: Message
       "id" -> longNumber,
       "name" -> nonEmptyText,
     )(UpdateCategoryForm.apply)(UpdateCategoryForm.unapply)
+  }
+
+  def getCategoriesJSON: Action[AnyContent] = Action.async { implicit request =>
+    val categories = categoryRepo.list()
+    categories.map( categories => Ok(toJson(categories)))
+  }
+
+  def getCategoryJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val category = categoryRepo.getByIdOption(id)
+    category.map(category => Ok(toJson(category)))
   }
 
   def getCategories: Action[AnyContent] = Action.async { implicit request =>
