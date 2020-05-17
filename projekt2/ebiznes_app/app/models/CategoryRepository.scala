@@ -35,6 +35,10 @@ class CategoryRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(im
     category.filter(_.id === id).result.head
   }
 
+  def getByIdOption(id: Long): Future[Option[Category]] = db.run {
+    category.filter(_.id === id).result.headOption
+  }
+
   def delete(id: Long): Future[Unit] = db.run(category.filter(_.id === id).delete).map(_ => ())
 
   def update(id: Long, new_category: Category): Future[Unit] = {

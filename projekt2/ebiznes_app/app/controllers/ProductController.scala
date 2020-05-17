@@ -22,6 +22,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "category" -> longNumber,
+      "photo" -> nonEmptyText,
     )(CreateProductForm.apply)(CreateProductForm.unapply)
   }
 
@@ -31,6 +32,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
       "category" -> longNumber,
+      "photo" -> nonEmptyText,
     )(UpdateProductForm.apply)(UpdateProductForm.unapply)
   }
 
@@ -61,7 +63,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
 
     val produkt = productRepo.getById(id)
     produkt.map(product => {
-      val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.name, product.description,product.category))
+      val prodForm = updateProductForm.fill(UpdateProductForm(product.id, product.name, product.description,product.category, product.photo))
       Ok(views.html.productupdate(prodForm, categ))
     })
   }
@@ -80,7 +82,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
         )
       },
       product => {
-        productRepo.update(product.id, Product(product.id, product.name, product.description, product.category)).map { _ =>
+        productRepo.update(product.id, Product(product.id, product.name, product.description, product.category, product.photo)).map { _ =>
           Redirect(routes.ProductController.updateProduct(product.id)).flashing("success" -> "product updated")
         }
       }
@@ -108,7 +110,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
         )
       },
       product => {
-        productRepo.create(product.name, product.description, product.category).map { _ =>
+        productRepo.create(product.name, product.description, product.category, product.photo).map { _ =>
           Redirect(routes.ProductController.addProduct()).flashing("success" -> "product.created")
         }
       }
@@ -118,5 +120,5 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
 
 }
 
-case class CreateProductForm(name: String, description: String, category: Long)
-case class UpdateProductForm(id: Long, name: String, description: String, category: Long)
+case class CreateProductForm(name: String, description: String, category: Long, photo: String)
+case class UpdateProductForm(id: Long, name: String, description: String, category: Long, photo: String)

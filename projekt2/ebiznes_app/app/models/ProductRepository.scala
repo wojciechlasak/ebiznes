@@ -23,9 +23,11 @@ case class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider
 
     def category = column[Long]("category")
 
+    def photo = column[String]("photo")
+
     def category_fk = foreignKey("cat_fk",category, cat)(_.id)
 
-    def * = (id, name, description, category) <> ((Product.apply _).tupled, Product.unapply)
+    def * = (id, name, description, category, photo) <> ((Product.apply _).tupled, Product.unapply)
 
   }
 
@@ -35,11 +37,11 @@ case class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider
 
   private val cat = TableQuery[CategoryTable]
 
-  def create(name: String, description: String, category: Long): Future[Product] = db.run {
-    (product.map(p => (p.name, p.description,p.category))
+  def create(name: String, description: String, category: Long, photo: String): Future[Product] = db.run {
+    (product.map(p => (p.name, p.description,p.category, p.photo))
       returning product.map(_.id)
-      into {case ((name,description,category),id) => Product(id,name, description,category)}
-      ) += (name, description,category)
+      into {case ((name,description,category, photo),id) => Product(id,name, description,category, photo)}
+      ) += (name, description, category, photo)
   }
 
   def list(): Future[Seq[Product]] = db.run {

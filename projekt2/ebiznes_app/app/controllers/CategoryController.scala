@@ -35,6 +35,14 @@ class CategoryController @Inject()(categoryRepo: CategoryRepository, cc: Message
     categories.map( categories => Ok(views.html.categories(categories)))
   }
 
+  def getCategory(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val category = categoryRepo.getByIdOption(id)
+    category.map(category => category match {
+      case Some(p) => Ok(views.html.category(p))
+      case None => Redirect(routes.CategoryController.getCategories())
+    })
+  }
+
   def deleteCategory(id: Long): Action[AnyContent] = Action {
     categoryRepo.delete(id)
     Redirect("/categories")

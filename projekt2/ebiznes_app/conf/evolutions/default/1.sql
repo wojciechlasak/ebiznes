@@ -21,6 +21,7 @@ CREATE TABLE "product" (
  "name" VARCHAR NOT NULL,
  "description" VARCHAR NOT NULL,
  "category" INT NOT NULL,
+ "photo" VARCHAR NOT NULL,
  FOREIGN KEY(category) references category(id)
 );
 
