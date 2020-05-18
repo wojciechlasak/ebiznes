@@ -1,0 +1,19 @@
+img {
+    width: 100%;
+}
+
+.product-item-container {
+    border: 1px solid transparent;
+    border-radius: 2em;
+    transition: border-color 0.5s;
+    padding: 0.5em 1em;
+}
+
+.product-item-container:hover {
+    border-color: #1a1a1a;
+}
+
+.icon {
+    font-size: 24px;
+    cursor: pointer;
+}

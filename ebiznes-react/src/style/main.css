@@ -1,0 +1,81 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-size: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: #000;
+}
+
+.air {
+    clear: both;
+    height: 3em;
+}
+.airmin {
+    clear: both;
+    height: 1.5em;
+}
+.airmik {
+    clear: both;
+    height: 0.75em;
+}
+
+.abs {
+    position: absolute;
+}
+
+.rel {
+    position: relative;
+}
+
+.column {
+    padding: 0 2.5em;
+}
+
+.column-double {
+    padding: 0 5em;
+}
+
+.part {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.flex {display:flex;}
+.flex-wrap {flex-wrap:wrap;}
+.flex-no-shrink {flex-shrink:0;}
+.flex-no-grow {flex-grow:0;}
+.flex-column {flex-direction:column;}
+.flex-justify-start {justify-content:flex-start;}
+.flex-justify-end {justify-content:flex-end;}
+.flex-justify-center {justify-content:center;}
+.flex-justify-space-between {justify-content:space-between;}
+.flex-justify-space-evenly {justify-content:space-evenly;}
+.flex-align-start {align-items:flex-start;}
+.flex-align-end {align-items:flex-end;}
+.flex-align-center {align-items:center;}
+.flex-align-stretch {align-items:stretch;}
+.col2 {width:50%;}
+.col3 {width:33.3333%;}
+.col3-2 {width:66.6667%;}
+.col4 {width:25%;}
+.col4-3 {width:75%;}
+.col5 {width:20%;}
+.col5-2 {width:40%;}
+.col5-3 {width:60%;}
+.col5-4 {width:80%;}
+.col6 {width:16.6667%;}
+.col6-5 {width:83.3333%;}
+.col8 {width:12.5%}
+.text-align-center {text-align: center;}
