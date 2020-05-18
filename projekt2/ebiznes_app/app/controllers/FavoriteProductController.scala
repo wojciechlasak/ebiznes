@@ -20,16 +20,16 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
 
   val favoriteproductForm: Form[CreateFavoriteProductForm] = Form {
     mapping(
-      "favorite" -> longNumber,
       "product" -> longNumber,
+      "favorite" -> longNumber,
     )(CreateFavoriteProductForm.apply)(CreateFavoriteProductForm.unapply)
   }
 
   val updateFavoriteProductForm: Form[UpdateFavoriteProductForm] = Form {
     mapping(
       "id" -> longNumber,
-      "favorite" -> longNumber,
       "product" -> longNumber,
+      "favorite" -> longNumber,
     )(UpdateFavoriteProductForm.apply)(UpdateFavoriteProductForm.unapply)
   }
 
@@ -40,6 +40,11 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
 
   def getFavoriteProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val favoriteproduct = favoriteproductRepo.getByIdOption(id)
+    favoriteproduct.map(favoriteproduct => Ok(toJson(favoriteproduct)))
+  }
+
+  def getFavoriteProductByFavoriteJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val favoriteproduct = favoriteproductRepo.getByFavorite(id)
     favoriteproduct.map(favoriteproduct => Ok(toJson(favoriteproduct)))
   }
 

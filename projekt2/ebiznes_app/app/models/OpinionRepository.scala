@@ -30,7 +30,7 @@ class OpinionRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, pro
 
   private val prod = TableQuery[ProductTable]
 
-  def create(description: String, product: Long): Future[Opinion] = db.run {
+    def create(description: String, product: Long): Future[Opinion] = db.run {
     (opinion.map(o => (o.description,o.product))
       returning opinion.map(_.id)
       into {case ((description,product),id) => Opinion(id,description,product)}

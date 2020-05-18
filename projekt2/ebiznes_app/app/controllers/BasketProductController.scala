@@ -21,8 +21,8 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
   val basketproductForm: Form[CreateBasketProductForm] = Form {
     mapping(
       "quantity" -> number,
-      "basket" -> longNumber,
       "product" -> longNumber,
+      "basket" -> longNumber,
     )(CreateBasketProductForm.apply)(CreateBasketProductForm.unapply)
   }
 
@@ -30,8 +30,8 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
     mapping(
       "id" -> longNumber,
       "quantity" -> number,
-      "basket" -> longNumber,
       "product" -> longNumber,
+      "basket" -> longNumber,
     )(UpdateBasketProductForm.apply)(UpdateBasketProductForm.unapply)
   }
 
@@ -42,6 +42,11 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
 
   def getBasketProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val basketproduct = basketproductRepo.getByIdOption(id)
+    basketproduct.map(basketproduct => Ok(toJson(basketproduct)))
+  }
+
+  def getBasketProductByBasketJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val basketproduct = basketproductRepo.getByBasket(id)
     basketproduct.map(basketproduct => Ok(toJson(basketproduct)))
   }
 

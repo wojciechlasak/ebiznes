@@ -41,6 +41,11 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
     favorite.map(favorite => Ok(toJson(favorite)))
   }
 
+  def getFavoriteByClientJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val favorite = favoriteRepo.getByClient(id)
+    favorite.map(favorite => Ok(toJson(favorite)))
+  }
+
   def getFavorites: Action[AnyContent] = Action.async { implicit request =>
     val favorites = favoriteRepo.list()
     favorites.map( favorites => Ok(views.html.favorites(favorites)))

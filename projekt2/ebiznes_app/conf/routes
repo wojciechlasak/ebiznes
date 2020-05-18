@@ -23,7 +23,7 @@ GET     /deleteproduct/:id          controllers.ProductController.deleteProduct(
 
 DELETE  /api/deleteproduct/:id      controllers.ProductController.deleteProduct(id: Long)
 PUT     /api/updateproduct/:id      controllers.ProductController.updateProduct(id: Long)
-POST    /api/addproduct             controllers.ProductController.addProduct
+POST    /api/addproduct             controllers.ProductController.addProductHandle
 GET     /api/products               controllers.ProductController.getProductsJSON
 GET     /api/product/:id            controllers.ProductController.getProductJSON(id: Long)
 
@@ -40,9 +40,10 @@ GET     /deletebasket/:id          controllers.BasketController.deleteBasket(id:
 
 DELETE  /api/deletebasket/:id      controllers.BasketController.deleteBasket(id: Long)
 PUT     /api/updatebasket/:id      controllers.BasketController.updateBasket(id: Long)
-POST    /api/addbasket             controllers.BasketController.addBasket
+POST    /api/addbasket             controllers.BasketController.addBasketHandle
 GET     /api/baskets               controllers.BasketController.getBasketsJSON
 GET     /api/basket/:id            controllers.BasketController.getBasketJSON(id: Long)
+GET     /api/basket/client/:id     controllers.BasketController.getBasketByClientJSON(id: Long)
 
 # BasketProduct
 
@@ -57,9 +58,10 @@ GET     /deletebasketproduct/:id          controllers.BasketProductController.de
 
 DELETE  /api/deletebasketproduct/:id      controllers.BasketProductController.deleteBasketProduct(id: Long)
 PUT     /api/updatebasketproduct/:id      controllers.BasketProductController.updateBasketProduct(id: Long)
-POST    /api/addbasketproduct             controllers.BasketProductController.addBasketProduct
+POST    /api/addbasketproduct             controllers.BasketProductController.addBasketProductHandle
 GET     /api/basketproducts               controllers.BasketProductController.getBasketProductsJSON
 GET     /api/basketproduct/:id            controllers.BasketProductController.getBasketProductJSON(id: Long)
+GET     /api/basketproduct/basket/:id     controllers.BasketProductController.getBasketProductByBasketJSON(id: Long)
 
 # Opinion
 
@@ -74,9 +76,10 @@ GET     /deleteopinion/:id          controllers.OpinionController.deleteOpinion(
 
 DELETE  /api/deleteopinion/:id      controllers.OpinionController.deleteOpinion(id: Long)
 PUT     /api/updateopinion/:id      controllers.OpinionController.updateOpinion(id: Long)
-POST    /api/addopinion             controllers.OpinionController.addOpinion
+POST    /api/addopinion             controllers.OpinionController.addOpinionHandle
 GET     /api/opinions               controllers.OpinionController.getOpinionsJSON
 GET     /api/opinion/:id            controllers.OpinionController.getOpinionJSON(id: Long)
+GET     /api/opinion/product/:id    controllers.OpinionController.getOpinionByProductJSON(id: Long)
 
 # Client
 
@@ -91,7 +94,7 @@ GET     /deleteclient/:id           controllers.ClientController.deleteClient(id
 
 DELETE  /api/deleteclient/:id      controllers.ClientController.deleteClient(id: Long)
 PUT     /api/updateclient/:id      controllers.ClientController.updateClient(id: Long)
-POST    /api/addclient             controllers.ClientController.addClient
+POST    /api/addclient             controllers.ClientController.addClientHandle
 GET     /api/clients               controllers.ClientController.getClientsJSON
 GET     /api/client/:id            controllers.ClientController.getClientJSON(id: Long)
 
@@ -108,7 +111,7 @@ GET     /deletecategory/:id          controllers.CategoryController.deleteCatego
 
 DELETE  /api/deletecategory/:id      controllers.CategoryController.deleteCategory(id: Long)
 PUT     /api/updatecategory/:id      controllers.CategoryController.updateCategory(id: Long)
-POST    /api/addcategory             controllers.CategoryController.addCategory
+POST    /api/addcategory             controllers.CategoryController.addCategoryHandle
 GET     /api/categories              controllers.CategoryController.getCategoriesJSON
 GET     /api/category/:id            controllers.CategoryController.getCategoryJSON(id: Long)
 
@@ -125,9 +128,11 @@ GET     /deletefavorite/:id         controllers.FavoriteController.deleteFavorit
 
 DELETE  /api/deletefavorite/:id      controllers.FavoriteController.deleteFavorite(id: Long)
 PUT     /api/updatefavorite/:id      controllers.FavoriteController.updateFavorite(id: Long)
-POST    /api/addfavorite             controllers.FavoriteController.addFavorite
+POST    /api/addfavorite             controllers.FavoriteController.addFavoriteHandle
 GET     /api/favorites               controllers.FavoriteController.getFavoritesJSON
 GET     /api/favorite/:id            controllers.FavoriteController.getFavoriteJSON(id: Long)
+GET     /api/favorite/client/:id     controllers.FavoriteController.getFavoriteByClientJSON(id: Long)
+
 
 # FavoriteProduct
 
@@ -142,9 +147,10 @@ GET     /deletefavoriteproduct/:id         controllers.FavoriteProductController
 
 DELETE  /api/deletefavoriteproduct/:id      controllers.FavoriteProductController.deleteFavoriteProduct(id: Long)
 PUT     /api/updatefavoriteproduct/:id      controllers.FavoriteProductController.updateFavoriteProduct(id: Long)
-POST    /api/addfavoriteproduct             controllers.FavoriteProductController.addFavoriteProduct
+POST    /api/addfavoriteproduct             controllers.FavoriteProductController.addFavoriteProductHandle
 GET     /api/favoriteproducts               controllers.FavoriteProductController.getFavoriteProductsJSON
 GET     /api/favoriteproduct/:id            controllers.FavoriteProductController.getFavoriteProductJSON(id: Long)
+GET     /api/favoriteproduct/favorite/:id   controllers.FavoriteProductController.getFavoriteProductByFavoriteJSON(id: Long)
 
 # Payment
 
@@ -159,7 +165,7 @@ GET     /deletepayment/:id          controllers.PaymentController.deletePayment(
 
 DELETE  /api/deletepayment/:id      controllers.PaymentController.deletePayment(id: Long)
 PUT     /api/updatepayment/:id      controllers.PaymentController.updatePayment(id: Long)
-POST    /api/addpayment             controllers.PaymentController.addPayment
+POST    /api/addpayment             controllers.PaymentController.addPaymentHandle
 GET     /api/payments               controllers.PaymentController.getPaymentsJSON
 GET     /api/payment/:id            controllers.PaymentController.getPaymentJSON(id: Long)
 
@@ -176,7 +182,7 @@ GET     /deleteorder/:id            controllers.OrderController.deleteOrder(id: 
 
 DELETE  /api/deleteorder/:id      controllers.OrderController.deleteOrder(id: Long)
 PUT     /api/updateorder/:id      controllers.OrderController.updateOrder(id: Long)
-POST    /api/addorder             controllers.OrderController.addOrder
+POST    /api/addorder             controllers.OrderController.addOrderHandle
 GET     /api/orders               controllers.OrderController.getOrdersJSON
 GET     /api/order/:id            controllers.OrderController.getOrderJSON(id: Long)
 

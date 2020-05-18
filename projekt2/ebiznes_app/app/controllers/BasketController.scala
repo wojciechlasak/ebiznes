@@ -40,6 +40,11 @@ class BasketController @Inject()(basketRepo: BasketRepository, clientRepo: Clien
     basket.map(basket => Ok(toJson(basket)))
   }
 
+  def getBasketByClientJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val basket = basketRepo.getByClient(id)
+    basket.map(basket => Ok(toJson(basket)))
+  }
+
   def getBaskets: Action[AnyContent] = Action.async { implicit request =>
     val baskets = basketRepo.list()
     baskets.map( baskets => Ok(views.html.baskets(baskets)))

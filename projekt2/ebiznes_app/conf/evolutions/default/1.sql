@@ -2,13 +2,15 @@
 
 CREATE TABLE "category" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
- "name" VARCHAR NOT NULL
+ "name" VARCHAR NOT NULL,
+ UNIQUE(name)
 );
 
 CREATE TABLE "client" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
  "name" VARCHAR NOT NULL,
- "address" VARCHAR NOT NULL
+ "address" VARCHAR NOT NULL,
+ UNIQUE(name, address)
 );
 
 CREATE TABLE "payment" (
@@ -44,7 +46,8 @@ CREATE TABLE "basket_products" (
   "product" INTEGER NOT NULL,
   "basket" INTEGER NOT NULL,
   FOREIGN KEY(product) references product(id),
-  FOREIGN KEY(basket) references basket(id)
+  FOREIGN KEY(basket) references basket(id),
+  UNIQUE(product, basket)
 );
 
 CREATE TABLE "favorite" (
@@ -58,7 +61,8 @@ CREATE  TABLE "favorite_products" (
  "product" INTEGER NOT NULL,
  "favorite" INTEGER NOT NULL,
  FOREIGN KEY(product) references product(id),
- FOREIGN KEY(favorite) references favorite(id)
+ FOREIGN KEY(favorite) references favorite(id),
+ UNIQUE(product, favorite)
 );
 
 CREATE TABLE "order" (
@@ -66,7 +70,8 @@ CREATE TABLE "order" (
  "basket" INTEGER NOT NULL,
  "payment" INTEGER NOT NULL,
  FOREIGN KEY(payment) references payment(id),
- FOREIGN KEY(basket) references basket(id)
+ FOREIGN KEY(basket) references basket(id),
+ UNIQUE(basket, payment)
 );
 
 # --- !Downs

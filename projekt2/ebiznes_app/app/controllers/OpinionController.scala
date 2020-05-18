@@ -1,10 +1,10 @@
 package controllers
 
 import models.{Opinion, OpinionRepository, Product, ProductRepository}
-
 import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
+import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
 import play.api.mvc._
 import play.api.libs.json.Json.toJson
 
@@ -40,6 +40,19 @@ class OpinionController @Inject()(opinionRepo: OpinionRepository, productRepo: P
 
   def getOpinionJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val opinion = opinionRepo.getByIdOption(id)
+    opinion.map(opinion => Ok(toJson(opinion)))
+  }
+
+
+  def addOpinionJSON: Action[JsValue] = Action.async(parse.json) {
+    _.body.validate[Opinion] match {
+      case JsSuccess(opinion, _) => opinionRepo.create(opinion.description, opinion.product).map(_ => Ok("Opinion Created!"))
+      case _ => Future.successful(InternalServerError("Provided body is not valid. Please provide correct body with empty id."))
+    }
+  }
+
+  def getOpinionByProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    val opinion = opinionRepo.getByProduct(id)
     opinion.map(opinion => Ok(toJson(opinion)))
   }
 
