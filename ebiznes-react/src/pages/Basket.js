@@ -32,15 +32,28 @@ const Basket = () => {
 
     }, [basketProducts])
 
+    // const handleDelete = (productId) => {
+    //     console.log(productId)
+    //     fetch(getUrl(`deletebasketproduct/${productId}`), getRequestInit({method: 'DELETE'}))
+    //         .then((response) => {
+    //             console.log(response.json());
+    //         }).catch(err => {
+    //         console.error(err)
+    //         })
+    // }
+
     return (
         <div className="part column">
             <h2>Twój koszyk ({products.length})</h2>
             {products.length !== 0 ?
                 <>
-                    <Link to={`/order/1`}><button>Złóż zamówienie</button></Link>
+                    <Link to={`/order/1`}><button className="button-base button-blue">Złóż zamówienie</button></Link>
                     <div className="flex flex-wrap">
                         {products.map((product) => (
-                            <ProductItem key={product.id} product={product} />
+                            <>
+                                {/*<i className="icon icon-trash" onClick={handleDelete(product.id)}></i>*/}
+                                <ProductItem key={product.id} product={product} isIconVisible={false}/>
+                            </>
                         ))}
                     </div>
                 </>

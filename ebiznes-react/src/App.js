@@ -3,7 +3,7 @@ import './style/main.css';
 import './style/menu.css';
 import './img/fontello/css/fontello.css';
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -19,16 +19,16 @@ function App() {
         <nav className="menu flex column">
           <ul className="flex flex-justify-center flex-align-center">
             <li>
-              <Link to="/">Home</Link>
+              <NavLink exact={true} activeClassName="is-active" to="/">Home</NavLink>
             </li>
             <li>
-              <Link to="/products">Products</Link>
+              <NavLink activeClassName="is-active" to="/products">Products</NavLink>
             </li>
             <li>
-              <Link to="/basket"><i className="icon icon-basket"></i></Link>
+              <NavLink activeClassName="is-active" to="/basket"><i className="icon icon-basket"></i></NavLink>
             </li>
             <li>
-              <Link to="/favorite"><i className="icon icon-heart-empty"></i></Link>
+              <NavLink activeClassName="is-active" to="/favorite"><i className="icon icon-heart-empty"></i></NavLink>
             </li>
           </ul>
         </nav>

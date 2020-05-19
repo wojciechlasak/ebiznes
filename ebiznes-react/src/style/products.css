@@ -7,6 +7,7 @@ img {
     border-radius: 2em;
     transition: border-color 0.5s;
     padding: 0.5em 1em;
+    margin: 1em 0;
 }
 
 .product-item-container:hover {
@@ -16,4 +17,19 @@ img {
 .icon {
     font-size: 24px;
     cursor: pointer;
+}
+
+.tooltip-container {
+    top:100%;
+    left: 0px;
+    width: 200px;
+    height: 25px;
+    font-size: 0.72em;
+    border: none;
+    border-radius: 2em;
+    box-shadow: 6px 4px 10px 0px rgba(0,0,0,0.75);
+}
+
+.product-photo {
+    max-width: 500px;
 }

@@ -20,7 +20,7 @@ const Products = () => {
             <h2>Buty naszej oferty ({products.length})</h2>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <ProductItem key={product.id} product={product} />
+                    <ProductItem key={product.id} product={product} isIconVisible={true}/>
                 ))}
             </div>
             <div className="air"></div>

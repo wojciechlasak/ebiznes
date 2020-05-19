@@ -21,10 +21,11 @@ const Home = () => {
             <div className="flex flex-wrap">
                 {products.map((product,index) => {
                     if (index < 3) return <ProductItem key={product.id} product={product}/>
+                    return null;
                 })}
             </div>
             <div className="air"></div>
-            <Link to='/products'><button>Zobacz wszystkie produkty</button></Link>
+            <Link to='/products'><button class="button-base">Zobacz wszystkie produkty</button></Link>
             <div className="air"></div>
         </div>
     )

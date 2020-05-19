@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import {getRequestInit, getUrl} from "../utils/request";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, isIconVisible }) => {
+    const [tooltip, setTooltip] = useState("")
 
     const handleAddToCart = () => {
         fetch(
@@ -12,6 +13,12 @@ const ProductItem = ({ product }) => {
                 body: JSON.stringify({quantity: 1, basket: 1, product: product.id}), /* change*/
             })
         )
+        .then(() => {
+            setTooltip("Dodano do koszyka")
+            setTimeout(() => {
+                setTooltip("")
+            },2000)
+        })
     }
 
     const handleAddToFavorite = () => {
@@ -22,6 +29,12 @@ const ProductItem = ({ product }) => {
                 body: JSON.stringify({product: product.id, favorite: 1}), /* change*/
             })
         )
+        .then(() => {
+            setTooltip("Dodano do ulubionych")
+            setTimeout(() => {
+                setTooltip("")
+            },2000)
+        })
     }
 
     return (
@@ -35,10 +48,14 @@ const ProductItem = ({ product }) => {
                     />
                 </div>
             </Link>
-            <div>
-                <i className="icon icon-cart-plus" onClick={handleAddToCart}></i>
-                <i className="icon icon-heart-empty" onClick={handleAddToFavorite}></i>
-            </div>
+            {isIconVisible &&
+                <div className="rel">
+                    {tooltip &&
+                    <div className="abs tooltip-container flex flex-justify-center flex-align-center">{tooltip}</div>}
+                    <i className="icon icon-cart-plus" onClick={handleAddToCart}></i>
+                    <i className="icon icon-heart-empty" onClick={handleAddToFavorite}></i>
+                </div>
+            }
         </div>
     )
 }

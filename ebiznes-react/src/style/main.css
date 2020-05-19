@@ -52,6 +52,32 @@ a {
     margin: 0 auto;
 }
 
+.select-container {
+    max-width: 50%;
+}
+
+.button-base {
+    display: block;
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    border-radius: 1em;
+    border: none;
+    background-color: #cccccc;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.button-base:hover {
+    background-color: #939393;
+}
+
+.button-base.button-blue { background-color: #0088cc; }
+.button-base.button-blue:hover { background-color: #005580; }
+
+.button-base.button-red { background-color: #a12e2e; color: #fff; }
+.button-base.button-red:hover { background-color: #6d1d1d; }
+.button-base.button-red:disabled {background-color: #723a3a; color:#cccccc; }
+
 .flex {display:flex;}
 .flex-wrap {flex-wrap:wrap;}
 .flex-no-shrink {flex-shrink:0;}

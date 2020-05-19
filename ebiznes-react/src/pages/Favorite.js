@@ -36,7 +36,7 @@ const Favorite = () => {
             <h2>Twoje ulubione produkty ({products.length})</h2>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <ProductItem key={product.id} product={product} />
+                    <ProductItem key={product.id} product={product} isIconVisible={false}/>
                 ))}
             </div>
             <div className="air"></div>
