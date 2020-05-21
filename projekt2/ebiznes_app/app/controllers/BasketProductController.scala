@@ -76,7 +76,7 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }

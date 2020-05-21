@@ -34,12 +34,12 @@ function App() {
         </nav>
 
         <Switch>
-          <Route path="/basket" component={Basket} ></Route>
-          <Route path="/favorite" component={Favorite} ></Route>
+          <Route path="/basket"  ><Basket /></Route>
+          <Route path="/favorite" component={Favorite} />
           <Route path="/products" component={Products} />
           <Route path='/product/:prodId' component={Product} />
           <Route path='/order/:baskId' component={Order} />
-          <Route path="/" component={Home}></Route>
+          <Route path="/" component={Home} />
         </Switch>
       </div>
     </Router>

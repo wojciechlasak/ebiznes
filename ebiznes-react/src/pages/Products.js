@@ -13,14 +13,16 @@ const Products = () => {
             .catch((error) => {
                 console.log(error)
             })
-    }, [])
+    })
 
     return (
         <div className="part column">
             <h2>Buty naszej oferty ({products.length})</h2>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <ProductItem key={product.id} product={product} isIconVisible={true}/>
+                    <div className="col4 column">
+                        <ProductItem key={product.id} product={product} isIconVisible={true}/>
+                    </div>
                 ))}
             </div>
             <div className="air"></div>

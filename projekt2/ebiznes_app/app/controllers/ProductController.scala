@@ -67,7 +67,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
 
   def updateProduct(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var categ:Seq[Category] = Seq[Category]()
-    val categories = categoryRepo.list().onComplete{
+    categoryRepo.list().onComplete{
       case Success(cat) => categ = cat
       case Failure(_) => print("fail")
     }

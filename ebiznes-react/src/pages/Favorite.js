@@ -6,6 +6,7 @@ import "../style/products.css";
 const Favorite = () => {
     const [products, setProducts] = useState([])
     const [favorites, setFavorites] = useState([])
+    const [rerender, setRerender] = useState(false)
 
     useEffect(() => {
         fetch(getUrl('favoriteproduct/favorite/1'), getRequestInit({method: 'GET'}))
@@ -14,7 +15,7 @@ const Favorite = () => {
             .catch((error) => {
                 console.log(error)
             })
-    }, [])
+    }, [rerender])
 
     useEffect(() => {
         let promises = [];
@@ -31,12 +32,20 @@ const Favorite = () => {
 
     }, [favorites])
 
+    const handleDelete = (productId, favoriteProduct) => {
+        fetch(getUrl(`deletefavoriteproduct/${favoriteProduct[0].id}`), getRequestInit({method: 'DELETE'}))
+        setRerender(!rerender)
+    }
+
     return (
         <div className="part column">
             <h2>Twoje ulubione produkty ({products.length})</h2>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <ProductItem key={product.id} product={product} isIconVisible={false}/>
+                    <div className="col4 column">
+                        <i className="icon icon-trash" onClick={() => handleDelete(product.id,favorites.filter(obj => obj.product === product.id))}></i>
+                        <ProductItem key={product.id} product={product} isIconVisible={false}/>
+                    </div>
                 ))}
             </div>
             <div className="air"></div>
