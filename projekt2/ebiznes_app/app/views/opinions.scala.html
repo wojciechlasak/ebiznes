@@ -1,8 +1,10 @@
 @(opinions: Seq[Opinion])
 
 @for(opinion <- opinions) {
-    <b>@opinion.id</b>
+    <strong>@opinion.id</strong>
+    desc:
     @opinion.description
+    product:
     @opinion.product
     <br />
 }

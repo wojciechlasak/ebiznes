@@ -65,7 +65,7 @@ class BasketController @Inject()(basketRepo: BasketRepository, clientRepo: Clien
 
   def updateBasket(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var client:Seq[Client] = Seq[Client]()
-    val clients = clientRepo.list().onComplete{
+    clientRepo.list().onComplete{
       case Success(cli) => client = cli
       case Failure(_) => print("fail")
     }
@@ -79,7 +79,7 @@ class BasketController @Inject()(basketRepo: BasketRepository, clientRepo: Clien
 
   def updateBasketHandle = Action.async { implicit request =>
     var client:Seq[Client] = Seq[Client]()
-    val clients = clientRepo.list().onComplete{
+    clientRepo.list().onComplete{
       case Success(cli) => client = cli
       case Failure(_) => print("fail")
     }
@@ -107,7 +107,7 @@ class BasketController @Inject()(basketRepo: BasketRepository, clientRepo: Clien
 
   def addBasketHandle = Action.async { implicit request =>
     var client:Seq[Client] = Seq[Client]()
-    val clients = clientRepo.list().onComplete{
+    clientRepo.list().onComplete{
       case Success(cli) => client = cli
       case Failure(_) => print("fail")
     }

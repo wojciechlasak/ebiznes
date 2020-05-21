@@ -81,7 +81,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
 
   def updateProductHandle = Action.async { implicit request =>
     var categ:Seq[Category] = Seq[Category]()
-    val categories = categoryRepo.list().onComplete{
+    categoryRepo.list().onComplete{
       case Success(cat) => categ = cat
       case Failure(_) => print("fail")
     }
@@ -109,7 +109,7 @@ class ProductController @Inject()(productRepo: ProductRepository, categoryRepo: 
 
   def addProductHandle = Action.async { implicit request =>
     var categ:Seq[Category] = Seq[Category]()
-    val categories = categoryRepo.list().onComplete{
+    categoryRepo.list().onComplete{
       case Success(cat) => categ = cat
       case Failure(_) => print("fail")
     }

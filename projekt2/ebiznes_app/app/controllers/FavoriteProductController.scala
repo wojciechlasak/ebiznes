@@ -68,13 +68,13 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
 
   def updateFavoriteProduct(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var favorite:Seq[Favorite] = Seq[Favorite]()
-    val favorites = favoriteRepo.list().onComplete{
+    favoriteRepo.list().onComplete{
       case Success(fav) => favorite = fav
       case Failure(_) => print("fail")
     }
@@ -88,13 +88,13 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
 
   def updateFavoriteProductHandle = Action.async { implicit request =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var favorite:Seq[Favorite] = Seq[Favorite]()
-    val favorites = favoriteRepo.list().onComplete{
+    favoriteRepo.list().onComplete{
       case Success(fav) => favorite = fav
       case Failure(_) => print("fail")
     }
@@ -119,13 +119,13 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
     val favoriteproducts = favoriteproductRepo.list()
 
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var favorite:Seq[Favorite] = Seq[Favorite]()
-    val favorites = favoriteRepo.list().onComplete{
+    favoriteRepo.list().onComplete{
       case Success(fav) => favorite = fav
       case Failure(_) => print("fail")
     }
@@ -135,13 +135,13 @@ class FavoriteProductController @Inject()(favoriteproductRepo: FavoriteProductRe
 
   def addFavoriteProductHandle = Action.async { implicit request =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var favorite:Seq[Favorite] = Seq[Favorite]()
-    val favorites = favoriteRepo.list().onComplete{
+    favoriteRepo.list().onComplete{
       case Success(fav) => favorite = fav
       case Failure(_) => print("fail")
     }

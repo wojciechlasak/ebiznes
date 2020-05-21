@@ -1,8 +1,10 @@
 @(orders: Seq[Order])
 
 @for(order <- orders) {
-    <b>@order.id</b>
+    <strong>@order.id</strong>
+    payment:
     @order.payment
+    basket:
     @order.basket
     <br />
 }

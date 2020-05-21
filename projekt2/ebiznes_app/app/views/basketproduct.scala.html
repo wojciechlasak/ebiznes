@@ -1,9 +1,11 @@
 
 @(basketproduct: BasketProduct)
 
-<li>
-<b>@basketproduct.id</b>
-    @basketproduct.quantity
-    @basketproduct.product
-    @basketproduct.basket
-</li>
+<ul>
+    <li>
+    <stong>@basketproduct.id</stong>
+        quantity: @basketproduct.quantity
+        product: @basketproduct.product
+        basket: @basketproduct.basket
+    </li>
+</ul>

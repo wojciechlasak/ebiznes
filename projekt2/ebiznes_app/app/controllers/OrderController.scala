@@ -63,13 +63,13 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
 
   def updateOrder(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var payment:Seq[Payment] = Seq[Payment]()
-    val payments = paymentRepo.list().onComplete{
+    paymentRepo.list().onComplete{
       case Success(pay) => payment = pay
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
@@ -83,13 +83,13 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
 
   def updateOrderHandle = Action.async { implicit request =>
     var payment:Seq[Payment] = Seq[Payment]()
-    val payments = paymentRepo.list().onComplete{
+    paymentRepo.list().onComplete{
       case Success(pay) => payment = pay
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
@@ -114,13 +114,13 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
     val orders = orderRepo.list()
 
     var payment:Seq[Payment] = Seq[Payment]()
-    val payments = paymentRepo.list().onComplete{
+    paymentRepo.list().onComplete{
       case Success(pay) => payment = pay
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
@@ -130,13 +130,13 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
 
   def addOrderHandle = Action.async { implicit request =>
     var payment:Seq[Payment] = Seq[Payment]()
-    val payments = paymentRepo.list().onComplete{
+    paymentRepo.list().onComplete{
       case Success(pay) => payment = pay
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }

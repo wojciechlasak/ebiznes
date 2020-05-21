@@ -70,7 +70,7 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
 
   def updateBasketProduct(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
@@ -90,13 +90,13 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
 
   def updateBasketProductHandle = Action.async { implicit request =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
@@ -121,13 +121,13 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
     val basketproducts = basketproductRepo.list()
 
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
@@ -137,13 +137,13 @@ class BasketProductController @Inject()(basketproductRepo: BasketProductReposito
 
   def addBasketProductHandle = Action.async { implicit request =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
 
     var basket:Seq[Basket] = Seq[Basket]()
-    val baskets = basketRepo.list().onComplete{
+    basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
