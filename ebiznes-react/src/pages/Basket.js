@@ -7,6 +7,7 @@ import "../style/products.css";
 const Basket = () => {
     const [products, setProducts] = useState([])
     const [basketProducts, setBasketProducts] = useState([])
+    const [rerender, setRerender] = useState(false)
 
     useEffect(() => {
         fetch(getUrl('basketproduct/basket/1'), getRequestInit({method: 'GET'}))
@@ -15,7 +16,7 @@ const Basket = () => {
             .catch((error) => {
                 console.log(error)
             })
-    }, [])
+    }, [rerender])
 
     useEffect(() => {
         let promises = [];
@@ -32,15 +33,10 @@ const Basket = () => {
 
     }, [basketProducts])
 
-    // const handleDelete = (productId) => {
-    //     console.log(productId)
-    //     fetch(getUrl(`deletebasketproduct/${productId}`), getRequestInit({method: 'DELETE'}))
-    //         .then((response) => {
-    //             console.log(response.json());
-    //         }).catch(err => {
-    //         console.error(err)
-    //         })
-    // }
+    const handleDelete = (productId, basketProduct) => {
+        fetch(getUrl(`deletebasketproduct/${basketProduct[0].id}`), getRequestInit({method: 'DELETE'}))
+        setRerender(!rerender)
+    }
 
     return (
         <div className="part column">
@@ -50,10 +46,10 @@ const Basket = () => {
                     <Link to={`/order/1`}><button className="button-base button-blue">Złóż zamówienie</button></Link>
                     <div className="flex flex-wrap">
                         {products.map((product) => (
-                            <>
-                                {/*<i className="icon icon-trash" onClick={handleDelete(product.id)}></i>*/}
+                            <div className="col4 column">
+                                <i className="icon icon-trash" onClick={() => handleDelete(product.id,basketProducts.filter(obj => obj.product === product.id))}></i>
                                 <ProductItem key={product.id} product={product} isIconVisible={false}/>
-                            </>
+                            </div>
                         ))}
                     </div>
                 </>

@@ -66,7 +66,7 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
 
   def updateFavorite(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var client:Seq[Client] = Seq[Client]()
-    val clients = clientRepo.list().onComplete{
+    clientRepo.list().onComplete{
       case Success(cli) => client = cli
       case Failure(_) => print("fail")
     }

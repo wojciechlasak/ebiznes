@@ -56,6 +56,14 @@ a {
     max-width: 50%;
 }
 
+form textarea {
+    width: 400px;
+    border-radius: 2em;
+    padding: 1em;
+    height: 100px;
+    resize: none;
+}
+
 .button-base {
     display: block;
     padding: 0.5em 1em;
