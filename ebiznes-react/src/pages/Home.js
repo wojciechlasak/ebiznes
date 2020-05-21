@@ -25,7 +25,7 @@ const Home = () => {
                 })}
             </div>
             <div className="air"></div>
-            <Link to='/products'><button class="button-base">Zobacz wszystkie produkty</button></Link>
+            <Link to='/products'><button className="button-base">Zobacz wszystkie produkty</button></Link>
             <div className="air"></div>
         </div>
     )

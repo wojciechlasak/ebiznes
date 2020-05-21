@@ -25,7 +25,7 @@ case class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider
 
     def photo = column[String]("photo")
 
-    def category_fk = foreignKey("cat_fk",category, cat)(_.id)
+    def categoryFk = foreignKey("cat_fk",category, cat)(_.id)
 
     def * = (id, name, description, category, photo) <> ((Product.apply _).tupled, Product.unapply)
 
@@ -48,8 +48,8 @@ case class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider
     product.result
   }
 
-  def getByCategory(category_id: Long): Future[Seq[Product]] = db.run {
-    product.filter(_.category === category_id).result
+  def getByCategory(categoryId: Long): Future[Seq[Product]] = db.run {
+    product.filter(_.category === categoryId).result
   }
 
   def getById(id: Long): Future[Product] = db.run {
@@ -60,14 +60,14 @@ case class ProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvider
     product.filter(_.id === id).result.headOption
   }
 
-  def getByCategories(category_ids: List[Long]): Future[Seq[Product]] = db.run {
-    product.filter(_.category inSet category_ids).result
+  def getByCategories(categoryIds: List[Long]): Future[Seq[Product]] = db.run {
+    product.filter(_.category inSet categoryIds).result
   }
 
   def delete(id: Long): Future[Unit] = db.run(product.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_product: Product): Future[Unit] = {
-    val productToUpdate: Product = new_product.copy(id)
+  def update(id: Long, newProduct: Product): Future[Unit] = {
+    val productToUpdate: Product = newProduct.copy(id)
     db.run(product.filter(_.id === id).update(productToUpdate)).map(_ => ())
   }
 

@@ -20,8 +20,8 @@ class BasketProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
     def quantity = column[Int]("quantity")
     def product = column[Long]("product")
     def basket = column[Long]("basket")
-    def product_fk = foreignKey("prod_fk",product, prod)(_.id)
-    def basket_fk = foreignKey("bask_fk",basket, bask)(_.id)
+    def productFk = foreignKey("prod_fk",product, prod)(_.id)
+    def basketFk = foreignKey("bask_fk",basket, bask)(_.id)
     def * = (id, quantity, product, basket) <> ((BasketProduct.apply _).tupled, BasketProduct.unapply)
   }
 
@@ -47,8 +47,8 @@ class BasketProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
     basketProduct.result
   }
 
-  def getByBasket(basket_id: Long): Future[Seq[BasketProduct]] = db.run {
-    basketProduct.filter(_.basket === basket_id).result
+  def getByBasket(basketId: Long): Future[Seq[BasketProduct]] = db.run {
+    basketProduct.filter(_.basket === basketId).result
   }
 
   def getById(id: Long): Future[BasketProduct] = db.run {
@@ -61,8 +61,8 @@ class BasketProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
 
   def delete(id: Long): Future[Unit] = db.run(basketProduct.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_basketProduct: BasketProduct): Future[Unit] = {
-    val basketProductToUpdate: BasketProduct = new_basketProduct.copy(id)
+  def update(id: Long, newBasketProduct: BasketProduct): Future[Unit] = {
+    val basketProductToUpdate: BasketProduct = newBasketProduct.copy(id)
     db.run(basketProduct.filter(_.id === id).update(basketProductToUpdate)).map(_ => ())
   }
 

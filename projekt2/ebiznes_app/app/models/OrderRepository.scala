@@ -17,8 +17,8 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, payme
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def basket = column[Long]("basket")
     def payment = column[Long]("payment")
-    def basket_fk = foreignKey("bask_fk",basket, bask)(_.id)
-    def payment_fk = foreignKey("pay_fk",payment, pay)(_.id)
+    def basketFk = foreignKey("bask_fk",basket, bask)(_.id)
+    def paymentFk = foreignKey("pay_fk",payment, pay)(_.id)
     def * = (id, basket, payment) <> ((Order.apply _).tupled, Order.unapply)
   }
 
@@ -42,12 +42,12 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, payme
     order.result
   }
 
-  def getByPayment(payment_id: Long): Future[Seq[Order]] = db.run {
-    order.filter(_.payment === payment_id).result
+  def getByPayment(paymentId: Long): Future[Seq[Order]] = db.run {
+    order.filter(_.payment === paymentId).result
   }
 
-  def getByBasket(basket_id: Long): Future[Seq[Order]] = db.run {
-    order.filter(_.basket === basket_id).result
+  def getByBasket(basketId: Long): Future[Seq[Order]] = db.run {
+    order.filter(_.basket === basketId).result
   }
 
   def getById(id: Long): Future[Order] = db.run {
@@ -60,8 +60,8 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, payme
 
   def delete(id: Long): Future[Unit] = db.run(order.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_order: Order): Future[Unit] = {
-    val orderToUpdate: Order = new_order.copy(id)
+  def update(id: Long, newOrder: Order): Future[Unit] = {
+    val orderToUpdate: Order = newOrder.copy(id)
     db.run(order.filter(_.id === id).update(orderToUpdate)).map(_ => ())
   }
 

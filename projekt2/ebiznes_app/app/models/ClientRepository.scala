@@ -43,8 +43,8 @@ class ClientRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(impl
   
   def delete(id: Long): Future[Unit] = db.run(client.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_client: Client): Future[Unit] = {
-    val clientToUpdate: Client = new_client.copy(id)
+  def update(id: Long, newClient: Client): Future[Unit] = {
+    val clientToUpdate: Client = newClient.copy(id)
     db.run(client.filter(_.id === id).update(clientToUpdate)).map(_ => ())
   }
 }

@@ -19,8 +19,8 @@ class FavoriteProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvi
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def product = column[Long]("product")
     def favorite = column[Long]("favorite")
-    def product_fk = foreignKey("prod_fk",product, prod)(_.id)
-    def favorite_fk = foreignKey("fav_fk",favorite, fav)(_.id)
+    def productFk = foreignKey("prod_fk",product, prod)(_.id)
+    def favoriteFk = foreignKey("fav_fk",favorite, fav)(_.id)
     def * = (id, product, favorite) <> ((FavoriteProduct.apply _).tupled, FavoriteProduct.unapply)
   }
 
@@ -46,8 +46,8 @@ class FavoriteProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvi
     favoriteProduct.result
   }
 
-  def getByFavorite(favorite_id: Long): Future[Seq[FavoriteProduct]] = db.run {
-    favoriteProduct.filter(_.favorite === favorite_id).result
+  def getByFavorite(favoriteId: Long): Future[Seq[FavoriteProduct]] = db.run {
+    favoriteProduct.filter(_.favorite === favoriteId).result
   }
 
   def getById(id: Long): Future[FavoriteProduct] = db.run {
@@ -60,8 +60,8 @@ class FavoriteProductRepository @Inject() (dbConfigProvider: DatabaseConfigProvi
 
   def delete(id: Long): Future[Unit] = db.run(favoriteProduct.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_favoriteProduct: FavoriteProduct): Future[Unit] = {
-    val favoriteProductToUpdate: FavoriteProduct = new_favoriteProduct.copy(id)
+  def update(id: Long, newFavoriteProduct: FavoriteProduct): Future[Unit] = {
+    val favoriteProductToUpdate: FavoriteProduct = newFavoriteProduct.copy(id)
     db.run(favoriteProduct.filter(_.id === id).update(favoriteProductToUpdate)).map(_ => ())
   }
 

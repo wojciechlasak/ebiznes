@@ -16,7 +16,7 @@ case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def client = column[Long]("client")
-    def client_fk = foreignKey("cli_fk",client, cli)(_.id)
+    def clientFk = foreignKey("cli_fk",client, cli)(_.id)
     def * = (id, client) <> ((Favorite.apply _).tupled, Favorite.unapply)
 
   }
@@ -38,8 +38,8 @@ case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
     favorite.result
   }
 
-  def getByClient(client_id: Long): Future[Seq[Favorite]] = db.run {
-    favorite.filter(_.client === client_id).result
+  def getByClient(clientId: Long): Future[Seq[Favorite]] = db.run {
+    favorite.filter(_.client === clientId).result
   }
 
   def getById(id: Long): Future[Favorite] = db.run {
@@ -52,8 +52,8 @@ case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
 
   def delete(id: Long): Future[Unit] = db.run(favorite.filter(_.id === id).delete).map(_ => ())
 
-  def update(id: Long, new_favorite: Favorite): Future[Unit] = {
-    val favoriteToUpdate: Favorite = new_favorite.copy(id)
+  def update(id: Long, newFavorite: Favorite): Future[Unit] = {
+    val favoriteToUpdate: Favorite = newFavorite.copy(id)
     db.run(favorite.filter(_.id === id).update(favoriteToUpdate)).map(_ => ())
   }
 
