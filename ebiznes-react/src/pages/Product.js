@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom'
 import { getUrl, getRequestInit } from "../utils/request";
+import ProductIcons from "../components/ProductIcons";
 
 const Product = () => {
     const { prodId } = useParams();
@@ -9,7 +10,6 @@ const Product = () => {
     const [opinionDesc, setOpinionDesc] = useState(null);
     const [category, setCategory] = useState(null);
     const [product, setProduct] = useState([])
-    const [tooltip, setTooltip] = useState("")
 
     useEffect(() => {
         async function fetchProduct() {
@@ -44,35 +44,6 @@ const Product = () => {
         )
     }
 
-    const handleAddToCart = () => {
-        fetch(
-            getUrl(`addbasketproduct`),
-            getRequestInit({
-                method: 'POST',
-                body: JSON.stringify({quantity: 1, basket: 1, product: product.id}), /* change*/
-            })
-        )
-        .then(() => { changeTooltip("Dodano do koszyka") })
-    }
-
-    const handleAddToFavorite = () => {
-        fetch(
-            getUrl(`addfavoriteproduct`),
-            getRequestInit({
-                method: 'POST',
-                body: JSON.stringify({product: product.id, favorite: 1}), /* change*/
-            })
-        )
-        .then(() => { changeTooltip("Dodano do ulubionych")})
-    }
-
-    const changeTooltip = (text) => {
-        setTooltip(text)
-        setTimeout(() => {
-            setTooltip("")
-        },2000)
-    }
-
     return (
         <div className="part column-double">
             <h2>{product.name}</h2>
@@ -89,12 +60,7 @@ const Product = () => {
                     <div className="airmik"></div>
                     <strong>Kategoria: </strong>{category ? category.name : "-"}
                     <div className="airmik"></div>
-                    <div className="rel">
-                        {tooltip &&
-                        <div className="abs tooltip-container flex flex-justify-center flex-align-center">{tooltip}</div>}
-                        <i className="icon icon-cart-plus" onClick={handleAddToCart}></i>
-                        <i className="icon icon-heart-empty" onClick={handleAddToFavorite}></i>
-                    </div>
+                    <ProductIcons productId={product.id} />
                 </div>
             </div>
             <h3>Opinie</h3>

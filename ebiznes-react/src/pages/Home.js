@@ -20,7 +20,13 @@ const Home = () => {
             <h1>Witaj na naszej stronie zobacz co mamy w ofercie</h1>
             <div className="flex flex-wrap">
                 {products.map((product,index) => {
-                    if (index < 3) return <ProductItem key={product.id} product={product}/>
+                    if (index < 3) {
+                        return (
+                            <div className="col4 column">
+                                <ProductItem key={product.id} product={product} isIconVisible={true}/>
+                            </div>
+                        )
+                    }
                     return null;
                 })}
             </div>
