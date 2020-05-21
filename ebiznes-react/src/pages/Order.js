@@ -39,7 +39,7 @@ const Order = () => {
                 <Select
                     value={payment}
                     onChange={payment => setPayment(payment)}
-                    options={payments.map((payment) => ({value: payment.id, label: payment.name}))}
+                    options={payments.map((p) => ({value: p.id, label: p.name}))}
                 />
             </div>
             <div className="airmin"></div>

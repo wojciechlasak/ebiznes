@@ -80,7 +80,7 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
 
   def updateFavoriteHandle = Action.async { implicit request =>
     var client:Seq[Client] = Seq[Client]()
-    val clients = clientRepo.list().onComplete{
+    clientRepo.list().onComplete{
       case Success(cli) => client = cli
       case Failure(_) => print("fail")
     }
@@ -108,7 +108,7 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
 
   def addFavoriteHandle = Action.async { implicit request =>
     var client:Seq[Client] = Seq[Client]()
-    val clients = clientRepo.list().onComplete{
+    clientRepo.list().onComplete{
       case Success(cli) => client = cli
       case Failure(_) => print("fail")
     }

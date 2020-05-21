@@ -1,8 +1,10 @@
 @(favoriteproducts: Seq[FavoriteProduct])
 
 @for(favoriteproduct <- favoriteproducts) {
-    <b>@favoriteproduct.id</b>
+    <strong>@favoriteproduct.id</strong>
+    produkt:
     @favoriteproduct.product
+    favorite:
     @favoriteproduct.favorite
     <br />
 }

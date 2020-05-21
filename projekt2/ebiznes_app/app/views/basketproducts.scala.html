@@ -1,7 +1,8 @@
 @(basketproducts: Seq[BasketProduct])
 
 @for(basketproduct <- basketproducts) {
-    <b>@basketproduct.id</b>
+    <strong>@basketproduct.id</strong>
+    quantity:
     @basketproduct.quantity
     produkt:
     @basketproduct.product

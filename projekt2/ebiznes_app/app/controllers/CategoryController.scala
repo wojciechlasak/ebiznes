@@ -8,7 +8,6 @@ import javax.inject._
 import play.api.mvc._
 import play.api.libs.json.Json.toJson
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the

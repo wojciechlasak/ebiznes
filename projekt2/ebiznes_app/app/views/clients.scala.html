@@ -1,7 +1,8 @@
 @(clients: Seq[Client])
 
 @for(client <- clients) {
-    <b>@client.name</b>
+    <strong>@client.name</strong>
+    address:
     @client.address
     <br />
 }

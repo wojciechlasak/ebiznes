@@ -4,7 +4,7 @@ import models.{Opinion, OpinionRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject._
-import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
+import play.api.libs.json.{JsSuccess, JsValue}
 import play.api.mvc._
 import play.api.libs.json.Json.toJson
 
@@ -43,14 +43,6 @@ class OpinionController @Inject()(opinionRepo: OpinionRepository, productRepo: P
     opinion.map(opinion => Ok(toJson(opinion)))
   }
 
-
-  def addOpinionJSON: Action[JsValue] = Action.async(parse.json) {
-    _.body.validate[Opinion] match {
-      case JsSuccess(opinion, _) => opinionRepo.create(opinion.description, opinion.product).map(_ => Ok("Opinion Created!"))
-      case _ => Future.successful(InternalServerError("Provided body is not valid. Please provide correct body with empty id."))
-    }
-  }
-
   def getOpinionByProductJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val opinion = opinionRepo.getByProduct(id)
     opinion.map(opinion => Ok(toJson(opinion)))
@@ -76,7 +68,7 @@ class OpinionController @Inject()(opinionRepo: OpinionRepository, productRepo: P
 
   def updateOpinion(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
@@ -90,7 +82,7 @@ class OpinionController @Inject()(opinionRepo: OpinionRepository, productRepo: P
 
   def updateOpinionHandle = Action.async { implicit request =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
@@ -118,7 +110,7 @@ class OpinionController @Inject()(opinionRepo: OpinionRepository, productRepo: P
 
   def addOpinionHandle = Action.async { implicit request =>
     var product:Seq[Product] = Seq[Product]()
-    val products = productRepo.list().onComplete{
+    productRepo.list().onComplete{
       case Success(prod) => product = prod
       case Failure(_) => print("fail")
     }
