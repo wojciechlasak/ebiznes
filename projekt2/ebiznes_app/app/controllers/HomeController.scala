@@ -1,24 +1,33 @@
 package controllers
 
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import com.mohiva.play.silhouette.api.{LogoutEvent, Silhouette}
+import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
 import javax.inject._
+import play.api.Environment
+import play.api.http.ContentTypes
+import play.api.i18n.I18nSupport
+import play.api.libs.ws.WSClient
 import play.api.mvc._
+import utils.auth.DefaultEnv
 
-import scala.concurrent.{ExecutionContext}
+import scala.concurrent.{ExecutionContext, Future}
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+class HomeController @Inject()(components: ControllerComponents,
+                               silhouette: Silhouette[DefaultEnv],
+                               environment: Environment,
+                               ws: WSClient,
+                               authInfoRepository: AuthInfoRepository)
+                              (implicit ec: ExecutionContext) extends AbstractController(components) with I18nSupport {
 
-  /**
-   * Create an Action to render an HTML page with a welcome message.
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
-  def index = Action {
+  def index: Action[AnyContent] = Action {
     Ok(views.html.index("Your new application is ready."))
   }
+
+  def signOut: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    silhouette.env.eventBus.publish(LogoutEvent(request.identity, request))
+    silhouette.env.authenticatorService.discard(request.authenticator, Ok)
+  }
 }
+
