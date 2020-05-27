@@ -5,6 +5,7 @@ const ProductIcons = ({ productId }) => {
     const [tooltip, setTooltip] = useState("")
 
     const handleAdd = (url, body, text) => {
+        console.log(getUrl(url))
         fetch(
             getUrl(url),
             getRequestInit({
