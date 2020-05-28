@@ -1,25 +1,32 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {getRequestInit, getUrl} from "../utils/request";
+import {UserContext} from "../providers/UserProvider";
 
 const ProductIcons = ({ productId }) => {
     const [tooltip, setTooltip] = useState("")
+    const {user} = useContext(UserContext);
 
     const handleAdd = (url, body, text) => {
-        console.log(getUrl(url))
-        fetch(
-            getUrl(url),
-            getRequestInit({
-                method: 'POST',
-                body: JSON.stringify(body), /* change*/
-            })
-        )
-            .then(() => {
-                setTooltip(text)
-                setTimeout(() => {
-                    setTooltip("")
-                },2000)}
+        if(user){
+            fetch(
+                getUrl(url),
+                getRequestInit({
+                    method: 'POST',
+                    body: JSON.stringify(body), /* change*/
+                })
             )
-
+                .then(() => {
+                    setTooltip(text)
+                    setTimeout(() => {
+                        setTooltip("")
+                    },2000)
+                })
+        } else {
+            setTooltip("Musisz się zalogować")
+            setTimeout(() => {
+                setTooltip("")
+            },2000)
+        }
     }
 
     return (

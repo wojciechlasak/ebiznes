@@ -55,7 +55,7 @@ export default function SocialLoginButton({provider, title}) {
     return (
         <button
             type="button"
-            className="button-base"
+            className="button-base button-menu"
             onClick={handleAuthentication}
         >
             {title}
