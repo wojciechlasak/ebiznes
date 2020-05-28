@@ -11,6 +11,7 @@ import com.mohiva.play.silhouette.crypto.{JcaCrypter, JcaCrypterSettings, JcaSig
 import com.mohiva.play.silhouette.impl.authenticators._
 import com.mohiva.play.silhouette.impl.providers._
 import com.mohiva.play.silhouette.impl.providers.oauth2._
+import com.mohiva.play.silhouette.impl.providers.oauth1._
 import com.mohiva.play.silhouette.impl.providers.state.{CsrfStateItemHandler, CsrfStateSettings}
 import com.mohiva.play.silhouette.impl.services._
 import com.mohiva.play.silhouette.impl.util._
@@ -82,11 +83,11 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
   }
 
   @Provides
-  def provideSocialProviderRegistry(gitHubProvider: GitHubProvider,
-                                    googleProvider: GoogleProvider): SocialProviderRegistry = {
+  def provideSocialProviderRegistry(googleProvider: GoogleProvider,
+                                    facebookProvider: FacebookProvider): SocialProviderRegistry = {
     SocialProviderRegistry(Seq(
       googleProvider,
-      gitHubProvider
+      facebookProvider,
     ))
   }
 
@@ -161,16 +162,16 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
   }
 
   @Provides
-  def provideGitHubProvider(httpLayer: HTTPLayer,
-                            socialStateHandler: SocialStateHandler,
-                            configuration: Configuration): GitHubProvider = {
-    new GitHubProvider(httpLayer, socialStateHandler, configuration.underlying.as[OAuth2Settings]("silhouette.github"))
-  }
-
-  @Provides
   def provideGoogleProvider(httpLayer: HTTPLayer,
                             socialStateHandler: SocialStateHandler,
                             configuration: Configuration): GoogleProvider = {
     new GoogleProvider(httpLayer, socialStateHandler, configuration.underlying.as[OAuth2Settings]("silhouette.google"))
+  }
+
+  @Provides
+  def provideFacebookProvider(httpLayer: HTTPLayer,
+                            socialStateHandler: SocialStateHandler,
+                            configuration: Configuration): FacebookProvider = {
+    new FacebookProvider(httpLayer, socialStateHandler, configuration.underlying.as[OAuth2Settings]("silhouette.facebook"))
   }
 }

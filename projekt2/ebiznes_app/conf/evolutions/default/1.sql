@@ -36,8 +36,8 @@ CREATE TABLE "opinion" (
 
 CREATE TABLE "basket" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
- "client" INTEGER NOT NULL,
- FOREIGN KEY(client) references client(id)
+ "user" VARCHAR NOT NULL,
+ FOREIGN KEY(user) references user(id)
 );
 
 CREATE TABLE "basket_products" (
@@ -52,8 +52,8 @@ CREATE TABLE "basket_products" (
 
 CREATE TABLE "favorite" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
- "client" INTEGER NOT NULL,
- FOREIGN KEY(client) references client(id)
+ "user" VARCHAR NOT NULL,
+ FOREIGN KEY(user) references user(id)
 );
 
 CREATE  TABLE "favorite_products" (

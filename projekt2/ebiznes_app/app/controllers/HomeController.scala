@@ -26,8 +26,9 @@ class HomeController @Inject()(components: ControllerComponents,
   }
 
   def signOut: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    val result = Redirect(routes.HomeController.index())
     silhouette.env.eventBus.publish(LogoutEvent(request.identity, request))
-    silhouette.env.authenticatorService.discard(request.authenticator, Ok)
+    silhouette.env.authenticatorService.discard(request.authenticator, result)
   }
 }
 
