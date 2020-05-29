@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import ProductItem from '../components/ProductItem';
 import { getUrl, getRequestInit } from "../utils/request";
 import "../style/products.css";
+import { FavoriteContext } from '../providers/FavoriteProvider';
 
 const Favorite = () => {
     const [products, setProducts] = useState([])
     const [favorites, setFavorites] = useState([])
     const [rerender, setRerender] = useState(false)
+    const { favorite } = useContext(FavoriteContext);
 
     useEffect(() => {
-        fetch(getUrl('favoriteproduct/favorite/1'), getRequestInit({method: 'GET'}))
+        fetch(getUrl(`favoriteproduct/favorite/${favorite.id}`), getRequestInit({method: 'GET'}))
             .then(response => response.json())
             .then(data => setFavorites(data))
             .catch((error) => {

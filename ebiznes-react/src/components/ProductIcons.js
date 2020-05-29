@@ -2,11 +2,13 @@ import React, {useContext, useState} from "react";
 import {getRequestInit, getUrl} from "../utils/request";
 import {UserContext} from "../providers/UserProvider";
 import {BasketContext} from "../providers/BasketProvider";
+import {FavoriteContext} from "../providers/FavoriteProvider";
 
 const ProductIcons = ({ productId }) => {
     const [tooltip, setTooltip] = useState("")
     const {user} = useContext(UserContext);
     const {basket} = useContext(BasketContext);
+    const {favorite} = useContext(FavoriteContext);
 
     const handleAdd = (url, body, text) => {
         if(user){
@@ -49,7 +51,7 @@ const ProductIcons = ({ productId }) => {
                 onClick={
                     () => handleAdd(
                         'addfavoriteproduct',
-                        {product: productId, favorite: 1},
+                        {product: productId, favorite: favorite.id},
                         'Dodano do ulubionych'
                     )
                 }

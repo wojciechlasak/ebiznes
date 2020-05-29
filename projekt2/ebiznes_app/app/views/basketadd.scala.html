@@ -7,10 +7,11 @@
 @form(routes.BasketController.addBasketHandle()) {
 
     <select name="user" id="user">
-    @for(cli <- user){
-        <option value="@cli.id">@cli.lastName</option>
+    @for(use <- user){
+        <option value="@use.id">@use.lastName</option>
     }
     </select>
+    <input name="isOrdered" id="isOrdered" value="@basket("isOrdered").value" type="number" />
 
     <div class="buttons">
         <input type="submit" value="Add Basket"/>

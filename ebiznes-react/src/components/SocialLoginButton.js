@@ -1,35 +1,46 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../providers/UserProvider';
 import { BasketContext } from '../providers/BasketProvider';
+import { FavoriteContext } from '../providers/FavoriteProvider'
 import { authenticate } from "../services/AuthService";
 import { getBasket, checkBasket, createBasket } from "../services/BasketService"
+import { getFavorite, checkFavorite, createFavorite } from "../services/FavoriteService"
 
 let existingWindow = null;
 
 export default function SocialLoginButton({provider, title}) {
     const { setUser } = useContext(UserContext);
     const { setBasket } = useContext(BasketContext);
+    const { setFavorite } = useContext(FavoriteContext);
 
     async function handleCreateBasket(user) {
         if(user) {
-            let baskets;
-
-            let check = await checkBasket(user.id);
-            if(!check) await createBasket(user.id);
-
-            baskets = await getBasket(user.id);
-            console.log(baskets)
-            await setBasket(
-                baskets.filter((basket)=> basket.isOrdered === 0)[0]
-            )
+            let isHasBasket = await checkBasket(user.id);
+            if(!isHasBasket) await createBasket(user.id);
+            let baskets = await getBasket(user.id);
+            await setBasket(baskets.filter((basket)=> basket.isOrdered === 0)[0])
         }
+    }
+
+    async function handleCreateFavorite(user) {
+        if(user) {
+            let isHasFavorite = await checkFavorite(user.id);
+            if(!isHasFavorite) await createFavorite(user.id);
+            let favorite = await getFavorite(user.id);
+            await setFavorite(favorite[0])
+        }
+    }
+
+    function createBasketAndFavorite (user) {
+        handleCreateBasket(user);
+        handleCreateFavorite(user);
     }
 
     function handleAuthentication() {
         window.socialProviderCallback = async function (socialProvider, queryParams) {
             let user = await authenticate(socialProvider, queryParams);
             await setUser(user);
-            await handleCreateBasket(user);
+            await createBasketAndFavorite(user);
         };
 
         if (existingWindow) {

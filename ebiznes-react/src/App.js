@@ -14,11 +14,13 @@ import NavBar from "./components/NavBar"
 import Auth from "./components/Auth";
 import UserProvider from "./providers/UserProvider";
 import BasketProvider from "./providers/BasketProvider";
+import FavoriteProvider from "./providers/FavoriteProvider";
 
 function App() {
   return (
     <UserProvider>
       <BasketProvider>
+          <FavoriteProvider>
       <Router>
         <div>
           <NavBar />
@@ -33,6 +35,7 @@ function App() {
           </Switch>
         </div>
       </Router>
+      </FavoriteProvider>
       </BasketProvider>
     </UserProvider>
   );

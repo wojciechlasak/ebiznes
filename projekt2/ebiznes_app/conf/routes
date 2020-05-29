@@ -131,7 +131,7 @@ PUT     /api/updatefavorite/:id      controllers.FavoriteController.updateFavori
 POST    /api/addfavorite             controllers.FavoriteController.addFavoriteHandle
 GET     /api/favorites               controllers.FavoriteController.getFavoritesJSON
 GET     /api/favorite/:id            controllers.FavoriteController.getFavoriteJSON(id: Long)
-GET     /api/favorite/user/:id     controllers.FavoriteController.getFavoriteByUserJSON(id: Long)
+GET     /api/favorite/user/:id     controllers.FavoriteController.getFavoriteByUserJSON(id: String)
 
 
 # FavoriteProduct

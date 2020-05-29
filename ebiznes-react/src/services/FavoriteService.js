@@ -1,8 +1,8 @@
 import {getRequestInit, getUrl} from "../utils/request";
 
 
-export const getBasket = (userId) => {
-    return fetch(getUrl(`basket/user/${userId}`), getRequestInit({method: 'GET'}))
+export const getFavorite = (userId) => {
+    return fetch(getUrl(`favorite/user/${userId}`), getRequestInit({method: 'GET'}))
         .then(response => response.json())
         .then(data => {
             return data
@@ -12,8 +12,8 @@ export const getBasket = (userId) => {
         })
 }
 
-export const checkBasket = (userId) => {
-    return fetch(getUrl(`basket/user/${userId}`), getRequestInit({method: 'GET'}))
+export const checkFavorite = (userId) => {
+    return fetch(getUrl(`favorite/user/${userId}`), getRequestInit({method: 'GET'}))
         .then(response => {
             const result = response.json()
             let isEmpty = Boolean(result.length);
@@ -28,22 +28,12 @@ export const checkBasket = (userId) => {
         })
 }
 
-export const createBasket = (userId) => {
+export const createFavorite = (userId) => {
     return fetch(
-        getUrl(`addbasket`),
+        getUrl(`addfavorite`),
         getRequestInit({
             method: 'POST',
-            body: JSON.stringify({user: userId, isOrdered: 0}),
-        })
-    )
-}
-
-export const updateBasket = (basketId,userId) => {
-    return fetch(
-        getUrl(`updatebasket`),
-        getRequestInit({
-            method: 'PUT',
-            body: JSON.stringify({id: basketId, isOrdered: 1, user: userId}),
+            body: JSON.stringify({user: userId}),
         })
     )
 }

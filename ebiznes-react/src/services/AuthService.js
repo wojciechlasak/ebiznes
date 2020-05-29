@@ -1,5 +1,6 @@
 import { getUrlAuth, getRequestInitAuth, getRequestInit, getUrl } from "../utils/request";
 
+
 export async function authenticate(provider, queryParams)  {
     return fetch(
             getUrlAuth(`authenticate/${provider}?${queryParams}`),

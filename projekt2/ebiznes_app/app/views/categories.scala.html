@@ -1,7 +1,10 @@
 @(categories: Seq[Category])
 
+<ul>
 @for(category <- categories) {
-    <strong>@category.name</strong>
-    <br />
+    <li>
+        <strong>@category.name</strong>
+    </li>
 
 }
+</ul>

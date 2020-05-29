@@ -5,7 +5,6 @@
     @flash.get("success").getOrElse("")
 
     @form(routes.OpinionController.updateOpinionHandle()) {
-        @helper.CSRF.formField
         <input name="id" id="id" value="@opinion("id").value" type="hidden" />
         @inputText(opinion("description"))
 
