@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import ProductItem from '../components/ProductItem';
 import { getUrl, getRequestInit } from "../utils/request";
 import { Link } from 'react-router-dom';
 import "../style/products.css";
+import { BasketContext } from '../providers/BasketProvider';
 
 const Basket = () => {
     const [products, setProducts] = useState([])
     const [basketProducts, setBasketProducts] = useState([])
     const [rerender, setRerender] = useState(false)
+    const { basket } = useContext(BasketContext);
 
     useEffect(() => {
-        fetch(getUrl('basketproduct/basket/1'), getRequestInit({method: 'GET'}))
+        fetch(getUrl(`basketproduct/basket/${basket.id}`), getRequestInit({method: 'GET'}))
             .then(response => response.json())
             .then(data => setBasketProducts(data))
             .catch((error) => {
@@ -43,7 +45,7 @@ const Basket = () => {
             <h2>Twój koszyk ({products.length})</h2>
             {products.length !== 0 ?
                 <>
-                    <Link to={`/order/1`}><button className="button-base button-blue">Złóż zamówienie</button></Link>
+                    <Link to={`/order/${basket.id}`}><button className="button-base button-blue">Złóż zamówienie</button></Link>
                     <div className="flex flex-wrap">
                         {products.map((product) => (
                             <div className="col4 column">

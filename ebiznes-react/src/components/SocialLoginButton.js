@@ -1,16 +1,35 @@
-import React, {useContext} from 'react';
-import {UserContext} from '../providers/UserProvider';
-import {authenticate} from "../services/AuthService";
+import React, { useContext } from 'react';
+import { UserContext } from '../providers/UserProvider';
+import { BasketContext } from '../providers/BasketProvider';
+import { authenticate } from "../services/AuthService";
+import { getBasket, checkBasket, createBasket } from "../services/BasketService"
 
 let existingWindow = null;
 
 export default function SocialLoginButton({provider, title}) {
-    const {setUser} = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
+    const { setBasket } = useContext(BasketContext);
+
+    async function handleCreateBasket(user) {
+        if(user) {
+            let baskets;
+
+            let check = await checkBasket(user.id);
+            if(!check) await createBasket(user.id);
+
+            baskets = await getBasket(user.id);
+            console.log(baskets)
+            await setBasket(
+                baskets.filter((basket)=> basket.isOrdered === 0)[0]
+            )
+        }
+    }
 
     function handleAuthentication() {
         window.socialProviderCallback = async function (socialProvider, queryParams) {
             let user = await authenticate(socialProvider, queryParams);
-            setUser(user);
+            await setUser(user);
+            await handleCreateBasket(user);
         };
 
         if (existingWindow) {

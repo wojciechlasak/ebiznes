@@ -5,7 +5,6 @@
 @flash.get("success").getOrElse("")
 
 @form(routes.FavoriteProductController.addFavoriteProductHandle()) {
-    @helper.CSRF.formField
 
     <select name="product" id="product">
     @for(prod <- product){

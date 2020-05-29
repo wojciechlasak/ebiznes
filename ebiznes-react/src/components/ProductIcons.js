@@ -1,10 +1,12 @@
 import React, {useContext, useState} from "react";
 import {getRequestInit, getUrl} from "../utils/request";
 import {UserContext} from "../providers/UserProvider";
+import {BasketContext} from "../providers/BasketProvider";
 
 const ProductIcons = ({ productId }) => {
     const [tooltip, setTooltip] = useState("")
     const {user} = useContext(UserContext);
+    const {basket} = useContext(BasketContext);
 
     const handleAdd = (url, body, text) => {
         if(user){
@@ -12,7 +14,7 @@ const ProductIcons = ({ productId }) => {
                 getUrl(url),
                 getRequestInit({
                     method: 'POST',
-                    body: JSON.stringify(body), /* change*/
+                    body: JSON.stringify(body),
                 })
             )
                 .then(() => {
@@ -37,7 +39,7 @@ const ProductIcons = ({ productId }) => {
                 onClick={
                     () => handleAdd(
                         'addbasketproduct',
-                        {quantity: 1, basket: 1, product: productId},
+                        {quantity: 1, basket: basket.id, product: productId},
                         'Dodano do koszyka'
                         )
                 }

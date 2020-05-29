@@ -1,13 +1,10 @@
 import React, { createContext, useState, useCallback } from 'react';
-import {getRequestInit, getUrl} from "../utils/request";
 
 export const UserContext = createContext({});
 
 export default function UserProvider({ children }) {
     const [user, setUser] = useState(() => {
         const userString = window.localStorage.getItem("e-biznes-user");
-        console.log(userString)
-
 
         return userString ? JSON.parse(userString) : null;
     });

@@ -5,7 +5,6 @@
 @flash.get("success").getOrElse("")
 
 @form(routes.FavoriteController.addFavoriteHandle()) {
-    @helper.CSRF.formField
 
     <select name="client" id="client">
     @for(cli <- client){

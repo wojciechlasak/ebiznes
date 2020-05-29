@@ -5,7 +5,6 @@
 @flash.get("success").getOrElse("")
 
 @form(routes.BasketProductController.addBasketProductHandle()) {
-    @helper.CSRF.formField
     <input name="quantity" id="quantity" value="@basketproduct("quantity").value" type="number" />
 
     <select name="product" id="product">

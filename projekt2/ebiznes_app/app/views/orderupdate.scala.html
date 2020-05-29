@@ -5,7 +5,6 @@
     @flash.get("success").getOrElse("")
 
     @form(routes.OrderController.updateOrderHandle()) {
-        @helper.CSRF.formField
         <input name="id" id="id" value="@order("id").value" type="hidden" />
 
         <select name="payment" id="payment">

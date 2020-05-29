@@ -39,11 +39,11 @@ GET     /basket/:id                controllers.BasketController.getBasket(id: Lo
 GET     /deletebasket/:id          controllers.BasketController.deleteBasket(id: Long)
 
 DELETE  /api/deletebasket/:id      controllers.BasketController.deleteBasket(id: Long)
-PUT     /api/updatebasket/:id      controllers.BasketController.updateBasket(id: Long)
+PUT     /api/updatebasket          controllers.BasketController.updateBasketHandle
 POST    /api/addbasket             controllers.BasketController.addBasketHandle
 GET     /api/baskets               controllers.BasketController.getBasketsJSON
 GET     /api/basket/:id            controllers.BasketController.getBasketJSON(id: Long)
-GET     /api/basket/client/:id     controllers.BasketController.getBasketByClientJSON(id: Long)
+GET     /api/basket/user/:id       controllers.BasketController.getBasketByUserJSON(id: String)
 
 # BasketProduct
 
@@ -131,7 +131,7 @@ PUT     /api/updatefavorite/:id      controllers.FavoriteController.updateFavori
 POST    /api/addfavorite             controllers.FavoriteController.addFavoriteHandle
 GET     /api/favorites               controllers.FavoriteController.getFavoritesJSON
 GET     /api/favorite/:id            controllers.FavoriteController.getFavoriteJSON(id: Long)
-GET     /api/favorite/client/:id     controllers.FavoriteController.getFavoriteByClientJSON(id: Long)
+GET     /api/favorite/user/:id     controllers.FavoriteController.getFavoriteByUserJSON(id: Long)
 
 
 # FavoriteProduct

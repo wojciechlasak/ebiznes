@@ -5,7 +5,6 @@
 @flash.get("success").getOrElse("")
 
 @form(routes.ClientController.addClientHandle()) {
-    @helper.CSRF.formField
     @inputText(client("name"))
     @inputText(client("address"))
 

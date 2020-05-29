@@ -1,11 +1,13 @@
-import {NavLink} from "react-router-dom";
-import {signOut} from "../services/AuthService";
+import { NavLink } from "react-router-dom";
+import { signOut } from "../services/AuthService";
 import SocialLoginButton from "./SocialLoginButton";
 import React, {useContext} from "react";
-import {UserContext} from "../providers/UserProvider";
+import { UserContext } from "../providers/UserProvider";
+import { BasketContext } from "../providers/BasketProvider";
 
 const NavBar = () => {
     const {user, setUser} = useContext(UserContext);
+    const { setBasket } = useContext(BasketContext);
 
     return (
         <nav className="menu flex column">
@@ -31,7 +33,7 @@ const NavBar = () => {
                             <button
                                 className="button-base button-red"
                                 type="button"
-                                onClick={() => {signOut(user); setUser(null)}}
+                                onClick={() => {signOut(user); setUser(null); setBasket(null)}}
                             >
                                 Logout
                             </button>

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import './style/main.css';
 import './style/menu.css';
 import './img/fontello/css/fontello.css';
@@ -13,10 +13,12 @@ import Order from "./pages/Order";
 import NavBar from "./components/NavBar"
 import Auth from "./components/Auth";
 import UserProvider from "./providers/UserProvider";
+import BasketProvider from "./providers/BasketProvider";
 
 function App() {
   return (
     <UserProvider>
+      <BasketProvider>
       <Router>
         <div>
           <NavBar />
@@ -31,6 +33,7 @@ function App() {
           </Switch>
         </div>
       </Router>
+      </BasketProvider>
     </UserProvider>
   );
 }
