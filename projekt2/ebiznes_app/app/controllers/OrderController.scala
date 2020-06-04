@@ -76,8 +76,8 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
 
     val order = orderRepo.getById(id)
     order.map(order => {
-      val ordForm = updateOrderForm.fill(UpdateOrderForm(order.id, order.payment,order.basket))
-      Ok(views.html.orderupdate(ordForm, payment, basket))
+      val ordForm = updateOrderForm.fill(UpdateOrderForm(order.id, order.basket, order.payment))
+      Ok(views.html.orderupdate(ordForm, basket, payment))
     })
   }
 
@@ -97,7 +97,7 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
     updateOrderForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.orderupdate(errorForm, payment, basket))
+          BadRequest(views.html.orderupdate(errorForm, basket, payment))
         )
       },
       order => {
@@ -113,19 +113,19 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
   def addOrder: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val orders = orderRepo.list()
 
-    var payment:Seq[Payment] = Seq[Payment]()
-    paymentRepo.list().onComplete{
-      case Success(pay) => payment = pay
-      case Failure(_) => print("fail")
-    }
-
     var basket:Seq[Basket] = Seq[Basket]()
     basketRepo.list().onComplete{
       case Success(bask) => basket = bask
       case Failure(_) => print("fail")
     }
 
-    orders.map ( _ => Ok(views.html.orderadd(orderForm, payment, basket)))
+    var payment:Seq[Payment] = Seq[Payment]()
+    paymentRepo.list().onComplete{
+      case Success(pay) => payment = pay
+      case Failure(_) => print("fail")
+    }
+
+    orders.map ( _ => Ok(views.html.orderadd(orderForm, basket, payment)))
   }
 
   def addOrderHandle = Action.async { implicit request =>
@@ -144,11 +144,11 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
     orderForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.orderadd(errorForm, payment, basket))
+          BadRequest(views.html.orderadd(errorForm, basket, payment))
         )
       },
       order => {
-        orderRepo.create(order.payment, order.basket).map { _ =>
+        orderRepo.create(order.basket, order.payment).map { _ =>
           Redirect(routes.OrderController.addOrder()).flashing("success" -> "order.created")
         }
       }
@@ -158,5 +158,5 @@ class OrderController @Inject()(orderRepo: OrderRepository, paymentRepo: Payment
 
 }
 
-case class CreateOrderForm(payment: Long, basket: Long)
-case class UpdateOrderForm(id: Long, payment: Long, basket: Long)
+case class CreateOrderForm(basket: Long, payment: Long)
+case class UpdateOrderForm(id: Long, basket: Long, payment: Long)

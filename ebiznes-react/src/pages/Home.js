@@ -22,8 +22,8 @@ const Home = () => {
                 {products.map((product,index) => {
                     if (index < 3) {
                         return (
-                            <div className="col4 column">
-                                <ProductItem key={product.id} product={product} isIconVisible={true}/>
+                            <div key={product.id} className="col4 column">
+                                <ProductItem product={product} isIconVisible={true}/>
                             </div>
                         )
                     }

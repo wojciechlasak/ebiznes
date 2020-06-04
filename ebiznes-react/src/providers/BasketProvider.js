@@ -10,14 +10,14 @@ export default function BasketProvider({ children }) {
     });
 
     const handleSetBasket = useCallback(
-        (basket) => {
-            if (basket) {
-                window.localStorage.setItem("e-biznes-basket", JSON.stringify(basket));
+        (b) => {
+            if (b) {
+                window.localStorage.setItem("e-biznes-basket", JSON.stringify(b));
             } else {
                 window.localStorage.removeItem("e-biznes-basket");
             }
 
-            setBasket(basket);
+            setBasket(b);
         },
         [setBasket]
     );

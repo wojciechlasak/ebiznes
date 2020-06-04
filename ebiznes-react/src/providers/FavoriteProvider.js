@@ -10,14 +10,14 @@ export default function FavoriteProvider({ children }) {
     });
 
     const handleSetFavorite = useCallback(
-        (favorite) => {
-            if (favorite) {
-                window.localStorage.setItem("e-biznes-favorite", JSON.stringify(favorite));
+        (f) => {
+            if (f) {
+                window.localStorage.setItem("e-biznes-favorite", JSON.stringify(f));
             } else {
                 window.localStorage.removeItem("e-biznes-favorite");
             }
 
-            setFavorite(favorite);
+            setFavorite(f);
         },
         [setFavorite]
     );

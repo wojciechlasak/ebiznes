@@ -20,8 +20,8 @@ const Products = () => {
             <h2>Buty naszej oferty ({products.length})</h2>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <div className="col4 column">
-                        <ProductItem key={product.id} product={product} isIconVisible={true}/>
+                    <div key={product.id} className="col4 column">
+                        <ProductItem  product={product} isIconVisible={true}/>
                     </div>
                 ))}
             </div>

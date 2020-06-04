@@ -31,7 +31,7 @@ class OrderRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, payme
 
   private val bask = TableQuery[BasketTable]
 
-  def create(payment: Long, basket: Long): Future[Order] = db.run {
+  def create(basket: Long, payment: Long): Future[Order] = db.run {
     (order.map(o => (o.basket, o.payment))
       returning order.map(_.id)
       into {case ((basket, payment),id) => Order(id, basket, payment)}

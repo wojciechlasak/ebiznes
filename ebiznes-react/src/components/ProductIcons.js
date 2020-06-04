@@ -41,7 +41,7 @@ const ProductIcons = ({ productId }) => {
                 onClick={
                     () => handleAdd(
                         'addbasketproduct',
-                        {quantity: 1, basket: basket.id, product: productId},
+                        {quantity: 1, basket: basket && basket.id, product: productId},
                         'Dodano do koszyka'
                         )
                 }
@@ -51,7 +51,7 @@ const ProductIcons = ({ productId }) => {
                 onClick={
                     () => handleAdd(
                         'addfavoriteproduct',
-                        {product: productId, favorite: favorite.id},
+                        {product: productId, favorite: favorite && favorite.id},
                         'Dodano do ulubionych'
                     )
                 }

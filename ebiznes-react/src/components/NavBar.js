@@ -4,10 +4,12 @@ import SocialLoginButton from "./SocialLoginButton";
 import React, {useContext} from "react";
 import { UserContext } from "../providers/UserProvider";
 import { BasketContext } from "../providers/BasketProvider";
+import { FavoriteContext } from "../providers/FavoriteProvider";
 
 const NavBar = () => {
     const {user, setUser} = useContext(UserContext);
     const { setBasket } = useContext(BasketContext);
+    const { setFavorite } = useContext(FavoriteContext);
 
     return (
         <nav className="menu flex column">
@@ -33,7 +35,13 @@ const NavBar = () => {
                             <button
                                 className="button-base button-red"
                                 type="button"
-                                onClick={() => {signOut(user); setUser(null); setBasket(null)}}
+                                onClick={() => {
+                                    signOut(user);
+                                    setUser(null);
+                                    setBasket(null);
+                                    setFavorite(null);
+
+                                }}
                             >
                                 Logout
                             </button>

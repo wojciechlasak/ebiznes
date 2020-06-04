@@ -15,28 +15,29 @@ import Auth from "./components/Auth";
 import UserProvider from "./providers/UserProvider";
 import BasketProvider from "./providers/BasketProvider";
 import FavoriteProvider from "./providers/FavoriteProvider";
+import { sessionRedirect } from "./utils/sessionRedirect";
 
 function App() {
   return (
     <UserProvider>
       <BasketProvider>
           <FavoriteProvider>
-      <Router>
-        <div>
-          <NavBar />
-          <Switch>
-            <Route path="/basket"  ><Basket /></Route>
-            <Route path="/favorite" component={Favorite} />
-            <Route path="/products" component={Products} />
-            <Route path='/product/:prodId' component={Product} />
-            <Route path='/order/:baskId' component={Order} />
-            <Route path={"/auth/:provider"} component={Auth}/>
-            <Route path="/" component={Home} />
-          </Switch>
-        </div>
-      </Router>
-      </FavoriteProvider>
-      </BasketProvider>
+              <Router>
+                <div>
+                  <NavBar />
+                  <Switch>
+                    <Route path="/basket"  render={() => sessionRedirect(<Basket />)} />
+                    <Route path="/favorite" render={() => sessionRedirect(<Favorite />)} />
+                    <Route path="/products" component={Products} />
+                    <Route path='/product/:prodId' component={Product} />
+                    <Route path='/order/:baskId' render={() => sessionRedirect(<Order />)} />
+                    <Route path={"/auth/:provider"} component={Auth}/>
+                    <Route path="/" component={Home} />
+                  </Switch>
+                </div>
+              </Router>
+            </FavoriteProvider>
+        </BasketProvider>
     </UserProvider>
   );
 }

@@ -1,4 +1,5 @@
 import { getUrlAuth, getRequestInitAuth, getRequestInit, getUrl } from "../utils/request";
+import decode from 'jwt-decode';
 
 
 export async function authenticate(provider, queryParams)  {
@@ -26,3 +27,10 @@ export function signOut(user) {
         getRequestInitAuth({ method: "GET", credentials: 'include' }, user.token)
     );
 }
+
+export function getSession() {
+    let token = localStorage.getItem('e-biznes-user');
+    let confirm = token && decode(token);
+    return confirm;
+}
+
