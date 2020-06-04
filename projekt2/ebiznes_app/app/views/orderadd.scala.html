@@ -1,11 +1,10 @@
-@(order: Form[CreateOrderForm],payment: Seq[Payment], basket: Seq[Basket])(implicit request: MessagesRequestHeader, flash: Flash)
+@(order: Form[CreateOrderForm], basket: Seq[Basket], payment: Seq[Payment])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
 @flash.get("success").getOrElse("")
 
 @form(routes.OrderController.addOrderHandle()) {
-    @helper.CSRF.formField
 
     <select name="payment" id="payment">
     @for(pay <- payment){

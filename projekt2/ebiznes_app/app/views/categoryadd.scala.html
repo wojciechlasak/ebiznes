@@ -5,7 +5,6 @@
 @flash.get("success").getOrElse("")
 
 @form(routes.CategoryController.addCategoryHandle()) {
-    @helper.CSRF.formField
     @inputText(category("name"))
 
     <div class="buttons">

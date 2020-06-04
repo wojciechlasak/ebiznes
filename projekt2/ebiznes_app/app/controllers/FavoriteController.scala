@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Favorite, FavoriteRepository, Client, ClientRepository}
+import models.{Favorite, FavoriteRepository, User, UserRepository}
 
 import play.api.data.Form
 import play.api.data.Forms._
@@ -16,18 +16,18 @@ import scala.util.{Failure, Success}
  * application's home page.
  */
 @Singleton
-class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo: ClientRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
+class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, userRepo: UserRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
   val favoriteForm: Form[CreateFavoriteForm] = Form {
     mapping(
-      "client" -> longNumber,
+      "user" -> nonEmptyText,
     )(CreateFavoriteForm.apply)(CreateFavoriteForm.unapply)
   }
 
   val updateFavoriteForm: Form[UpdateFavoriteForm] = Form {
     mapping(
       "id" -> longNumber,
-      "client" -> longNumber,
+      "user" -> nonEmptyText,
     )(UpdateFavoriteForm.apply)(UpdateFavoriteForm.unapply)
   }
 
@@ -41,8 +41,8 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
     favorite.map(favorite => Ok(toJson(favorite)))
   }
 
-  def getFavoriteByClientJSON(id: Long): Action[AnyContent] = Action.async { implicit request =>
-    val favorite = favoriteRepo.getByClient(id)
+  def getFavoriteByUserJSON(id: String): Action[AnyContent] = Action.async { implicit request =>
+    val favorite = favoriteRepo.getByUser(id)
     favorite.map(favorite => Ok(toJson(favorite)))
   }
 
@@ -65,34 +65,34 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
   }
 
   def updateFavorite(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    var client:Seq[Client] = Seq[Client]()
-    clientRepo.list().onComplete{
-      case Success(cli) => client = cli
+    var user:Seq[User] = Seq[User]()
+    userRepo.list().onComplete{
+      case Success(use) => user = use
       case Failure(_) => print("fail")
     }
 
     val favorite = favoriteRepo.getById(id)
     favorite.map(favorite => {
-      val favForm = updateFavoriteForm.fill(UpdateFavoriteForm(favorite.id, favorite.client))
-      Ok(views.html.favoriteupdate(favForm, client))
+      val favForm = updateFavoriteForm.fill(UpdateFavoriteForm(favorite.id, favorite.user))
+      Ok(views.html.favoriteupdate(favForm, user))
     })
   }
 
   def updateFavoriteHandle = Action.async { implicit request =>
-    var client:Seq[Client] = Seq[Client]()
-    clientRepo.list().onComplete{
-      case Success(cli) => client = cli
+    var user:Seq[User] = Seq[User]()
+    userRepo.list().onComplete{
+      case Success(use) => user = use
       case Failure(_) => print("fail")
     }
 
     updateFavoriteForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.favoriteupdate(errorForm, client))
+          BadRequest(views.html.favoriteupdate(errorForm, user))
         )
       },
       favorite => {
-        favoriteRepo.update(favorite.id, Favorite(favorite.id, favorite.client)).map { _ =>
+        favoriteRepo.update(favorite.id, Favorite(favorite.id, favorite.user)).map { _ =>
           Redirect(routes.FavoriteController.updateFavorite(favorite.id)).flashing("success" -> "Favorite updated")
         }
       }
@@ -102,25 +102,25 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
 
 
   def addFavorite: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    val clients = clientRepo.list()
-    clients.map (cli => Ok(views.html.favoriteadd(favoriteForm, cli)))
+    val users = userRepo.list()
+    users.map (use => Ok(views.html.favoriteadd(favoriteForm, use)))
   }
 
   def addFavoriteHandle = Action.async { implicit request =>
-    var client:Seq[Client] = Seq[Client]()
-    clientRepo.list().onComplete{
-      case Success(cli) => client = cli
+    var user:Seq[User] = Seq[User]()
+    userRepo.list().onComplete{
+      case Success(use) => user = use
       case Failure(_) => print("fail")
     }
 
     favoriteForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.favoriteadd(errorForm, client))
+          BadRequest(views.html.favoriteadd(errorForm, user))
         )
       },
       favorite => {
-        favoriteRepo.create(favorite.client).map { _ =>
+        favoriteRepo.create(favorite.user).map { _ =>
           Redirect(routes.FavoriteController.addFavorite()).flashing("success" -> "Favorite.created")
         }
       }
@@ -130,5 +130,5 @@ class FavoriteController @Inject()(favoriteRepo: FavoriteRepository, clientRepo:
 
 }
 
-case class CreateFavoriteForm(client: Long)
-case class UpdateFavoriteForm(id: Long, client: Long)
+case class CreateFavoriteForm(user: String)
+case class UpdateFavoriteForm(id: Long, user: String)

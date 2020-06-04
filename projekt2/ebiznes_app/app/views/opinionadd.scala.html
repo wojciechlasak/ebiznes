@@ -5,7 +5,6 @@
 @flash.get("success").getOrElse("")
 
 @form(routes.OpinionController.addOpinionHandle()) {
-    @helper.CSRF.formField
     @inputText(opinion("description"))
 
     <select name="product" id="product">

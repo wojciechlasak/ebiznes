@@ -1,6 +1,14 @@
 @(baskets: Seq[Basket])
 
+<ul>
 @for(basket <- baskets) {
-    <strong>@basket.id</strong>
-    <br/>
+    <li>
+        <strong>@basket.id</strong>
+        user:
+        @basket.user
+        isOrdered:
+        @basket.isOrdered
+        <br/>
+    </li>
 }
+</ul>

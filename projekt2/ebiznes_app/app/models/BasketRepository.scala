@@ -6,7 +6,7 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clientRepository: ClientRepository)(implicit ec: ExecutionContext) {
+class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, userRepository: UserRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -16,26 +16,29 @@ class BasketRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clie
   class BasketTable(tag: Tag) extends Table[Basket](tag, "basket") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def client = column[Long]("client")
-    def * = (id, client) <> ((Basket.apply _).tupled, Basket.unapply)
+    def isOrdered = column[Int] ("isOrdered")
+    def user = column[String]("user")
+    def * = (id, isOrdered, user) <> ((Basket.apply _).tupled, Basket.unapply)
 
   }
 
+
   private val basket = TableQuery[BasketTable]
 
-  def create(client: Long): Future[Basket] = db.run {
-    (basket.map(b => (b.client))
+
+  def create(isOrdered: Int, user: String): Future[Basket] = db.run {
+    (basket.map(b => (b.isOrdered, b.user))
       returning basket.map(_.id)
-      into {case ((client),id) => Basket(id,client)}
-      ) += (client)
+      into {case ((isOrdered, user),id) => Basket(id,isOrdered, user)}
+      ) += (isOrdered, user)
   }
 
   def list(): Future[Seq[Basket]] = db.run {
     basket.result
   }
 
-  def getByClient(clientId: Long): Future[Seq[Basket]] = db.run {
-    basket.filter(_.client === clientId).result
+  def getByUser(userId: String): Future[Seq[Basket]] = db.run {
+    basket.filter(_.user === userId).result
   }
 
   def getById(id: Long): Future[Basket] = db.run {

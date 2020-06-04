@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import ProductItem from '../components/ProductItem';
 import { getUrl, getRequestInit } from "../utils/request";
 import { Link } from 'react-router-dom';
+import { BasketContext } from '../providers/BasketProvider';
 import "../style/products.css";
 
 const Basket = () => {
     const [products, setProducts] = useState([])
     const [basketProducts, setBasketProducts] = useState([])
     const [rerender, setRerender] = useState(false)
+    const { basket } = useContext(BasketContext);
 
     useEffect(() => {
-        fetch(getUrl('basketproduct/basket/1'), getRequestInit({method: 'GET'}))
+        fetch(getUrl(`basketproduct/basket/${basket.id}`), getRequestInit({method: 'GET'}))
             .then(response => response.json())
             .then(data => setBasketProducts(data))
             .catch((error) => {
@@ -20,8 +22,8 @@ const Basket = () => {
 
     useEffect(() => {
         let promises = [];
-        basketProducts.forEach( (basket) => {
-            promises.push(fetch(getUrl(`product/${basket.product}`), getRequestInit({method: 'GET'})))
+        basketProducts.forEach( (basketProduct) => {
+            promises.push(fetch(getUrl(`product/${basketProduct.product}`), getRequestInit({method: 'GET'})))
         })
         Promise.all(promises)
             .then(responses =>
@@ -43,12 +45,12 @@ const Basket = () => {
             <h2>Twój koszyk ({products.length})</h2>
             {products.length !== 0 ?
                 <>
-                    <Link to={`/order/1`}><button className="button-base button-blue">Złóż zamówienie</button></Link>
+                    <Link to={`/order/${basket.id}`}><button className="button-base button-blue">Złóż zamówienie</button></Link>
                     <div className="flex flex-wrap">
                         {products.map((product) => (
-                            <div className="col4 column">
+                            <div key={product.id} className="col4 column">
                                 <i className="icon icon-trash" onClick={() => handleDelete(product.id,basketProducts.filter(obj => obj.product === product.id))}></i>
-                                <ProductItem key={product.id} product={product} isIconVisible={false}/>
+                                <ProductItem product={product} isIconVisible={false}/>
                             </div>
                         ))}
                     </div>

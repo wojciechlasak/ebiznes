@@ -6,7 +6,7 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.{ Future, ExecutionContext }
 
 @Singleton
-case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, clientRepository: ClientRepository)(implicit ec: ExecutionContext) {
+case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, userRepository: UserRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -15,31 +15,31 @@ case class FavoriteRepository @Inject() (dbConfigProvider: DatabaseConfigProvide
   case class FavoriteTable(tag: Tag) extends Table[Favorite](tag, "favorite") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def client = column[Long]("client")
-    def clientFk = foreignKey("cli_fk",client, cli)(_.id)
-    def * = (id, client) <> ((Favorite.apply _).tupled, Favorite.unapply)
+    def user = column[String]("user")
+    def userFk = foreignKey("use_fk",user, use)(_.id)
+    def * = (id, user) <> ((Favorite.apply _).tupled, Favorite.unapply)
 
   }
 
-  import clientRepository.ClientTable
+  import userRepository.UserTable
 
-  private val cli = TableQuery[ClientTable]
+  private val use = TableQuery[UserTable]
 
   private val favorite = TableQuery[FavoriteTable]
 
-  def create(client: Long): Future[Favorite] = db.run {
-    (favorite.map(b => (b.client))
+  def create(user: String): Future[Favorite] = db.run {
+    (favorite.map(b => (b.user))
       returning favorite.map(_.id)
-      into {case ((client),id) => Favorite(id,client)}
-      ) += (client)
+      into {case ((user),id) => Favorite(id,user)}
+      ) += (user)
   }
 
   def list(): Future[Seq[Favorite]] = db.run {
     favorite.result
   }
 
-  def getByClient(clientId: Long): Future[Seq[Favorite]] = db.run {
-    favorite.filter(_.client === clientId).result
+  def getByUser(userId: String): Future[Seq[Favorite]] = db.run {
+    favorite.filter(_.user === userId).result
   }
 
   def getById(id: Long): Future[Favorite] = db.run {

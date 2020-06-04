@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import ProductItem from '../components/ProductItem';
 import { getUrl, getRequestInit } from "../utils/request";
+import { FavoriteContext } from '../providers/FavoriteProvider';
 import "../style/products.css";
 
 const Favorite = () => {
     const [products, setProducts] = useState([])
     const [favorites, setFavorites] = useState([])
     const [rerender, setRerender] = useState(false)
+    const { favorite } = useContext(FavoriteContext);
 
     useEffect(() => {
-        fetch(getUrl('favoriteproduct/favorite/1'), getRequestInit({method: 'GET'}))
+        fetch(getUrl(`favoriteproduct/favorite/${favorite.id}`), getRequestInit({method: 'GET'}))
             .then(response => response.json())
             .then(data => setFavorites(data))
             .catch((error) => {
@@ -19,8 +21,8 @@ const Favorite = () => {
 
     useEffect(() => {
         let promises = [];
-        favorites.forEach( (favorite) => {
-            promises.push(fetch(getUrl(`product/${favorite.product}`), getRequestInit({method: 'GET'})))
+        favorites.forEach( (favoriteProduct) => {
+            promises.push(fetch(getUrl(`product/${favoriteProduct.product}`), getRequestInit({method: 'GET'})))
         })
         Promise.all(promises)
             .then(responses =>
@@ -42,9 +44,9 @@ const Favorite = () => {
             <h2>Twoje ulubione produkty ({products.length})</h2>
             <div className="flex flex-wrap">
                 {products.map((product) => (
-                    <div className="col4 column">
+                    <div key={product.id} className="col4 column">
                         <i className="icon icon-trash" onClick={() => handleDelete(product.id,favorites.filter(obj => obj.product === product.id))}></i>
-                        <ProductItem key={product.id} product={product} isIconVisible={false}/>
+                        <ProductItem  product={product} isIconVisible={false}/>
                     </div>
                 ))}
             </div>

@@ -1,24 +1,36 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {getRequestInit, getUrl} from "../utils/request";
+import {UserContext} from "../providers/UserProvider";
+import {BasketContext} from "../providers/BasketProvider";
+import {FavoriteContext} from "../providers/FavoriteProvider";
 
 const ProductIcons = ({ productId }) => {
     const [tooltip, setTooltip] = useState("")
+    const {user} = useContext(UserContext);
+    const {basket} = useContext(BasketContext);
+    const {favorite} = useContext(FavoriteContext);
 
     const handleAdd = (url, body, text) => {
-        fetch(
-            getUrl(url),
-            getRequestInit({
-                method: 'POST',
-                body: JSON.stringify(body), /* change*/
-            })
-        )
-            .then(() => {
-                setTooltip(text)
-                setTimeout(() => {
-                    setTooltip("")
-                },2000)}
+        if(user){
+            fetch(
+                getUrl(url),
+                getRequestInit({
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                })
             )
-
+                .then(() => {
+                    setTooltip(text)
+                    setTimeout(() => {
+                        setTooltip("")
+                    },2000)
+                })
+        } else {
+            setTooltip("Musisz się zalogować")
+            setTimeout(() => {
+                setTooltip("")
+            },2000)
+        }
     }
 
     return (
@@ -29,7 +41,7 @@ const ProductIcons = ({ productId }) => {
                 onClick={
                     () => handleAdd(
                         'addbasketproduct',
-                        {quantity: 1, basket: 1, product: productId},
+                        {quantity: 1, basket: basket && basket.id, product: productId},
                         'Dodano do koszyka'
                         )
                 }
@@ -39,7 +51,7 @@ const ProductIcons = ({ productId }) => {
                 onClick={
                     () => handleAdd(
                         'addfavoriteproduct',
-                        {product: productId, favorite: 1},
+                        {product: productId, favorite: favorite && favorite.id},
                         'Dodano do ulubionych'
                     )
                 }

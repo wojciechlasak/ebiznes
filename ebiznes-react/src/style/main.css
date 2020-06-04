@@ -75,6 +75,12 @@ form textarea {
     transition: background-color 0.5s;
 }
 
+.button-menu {
+    padding: 0.5em;
+    font-size: 1em;
+    margin-right: 0.5em;
+}
+
 .button-base:hover {
     background-color: #939393;
 }
